@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CstmsInterface xsi:schemaLocation="http://www.dhl.com/CustomsInterface_v2_3.xsd DCE_CustomsInterface_WCO_V2_3_3.xsd" xmlns="http://www.dhl.com/CustomsInterface_v2_3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Hdr>
+    <MsgCtl>
+      <SchemaName>DCE Cstms Msg</SchemaName>
+      <SchemaVersion>2.3.3</SchemaVersion>
+      <MsgRevision>1.0.0</MsgRevision>
+      <MsgDate>2014-07-10</MsgDate>
+      <MsgTime>15:22:12+08:00</MsgTime>
+      <MsgRef></MsgRef>
+      <NoOfShps>1</NoOfShps>
+    </MsgCtl>
+    <CstmsMsgDtls>
+      <MsgEntryNo>99999</MsgEntryNo>
+      <CstmsTgtCtry>CY</CstmsTgtCtry>
+      <CstmsTgtMsgType>WCO</CstmsTgtMsgType>
+      <DCEMsgVersion>2.3</DCEMsgVersion>
+      <Module>ECA</Module>
+      <Gateway>LCA</Gateway>
+    </CstmsMsgDtls>
+    <EDIMsgHDrDtls>
+      <UNB>
+        <SyntaxId>
+          <SyntaxId>0000</SyntaxId>
+          <SyntaxVersionNo>0</SyntaxVersionNo>
+        </SyntaxId>
+        <InterchangeSender>
+          <SenderID>DMG</SenderID>
+        </InterchangeSender>
+        <InterchangeRecipient>
+          <RecipientID></RecipientID>
+        </InterchangeRecipient>
+        <DateTimeOfPrep>
+          <DateOfPrep>2014-07-10</DateOfPrep>
+          <TimeOfPrep>15:22:12+08:00</TimeOfPrep>
+        </DateTimeOfPrep>
+        <InterchangeControlRef></InterchangeControlRef>
+        <ApplicationReference>DCC</ApplicationReference>
+      </UNB>
+      <UNH>
+        <MsgRefNo></MsgRefNo>
+        <MsgId>
+          <MsgType></MsgType>
+          <MsgVersionNo></MsgVersionNo>
+          <MsgReleaseNo></MsgReleaseNo>
+          <ControllingAgency></ControllingAgency>
+        </MsgId>
+      </UNH>
+    </EDIMsgHDrDtls>
+  </Hdr>
+  <Dtls>
+    <Entries>
+      <Entry>
+        <Mvmts>
+          <Mvmt>
+            <TDOCs>
+              <TDOC>
+                <TDOCNo>33446602</TDOCNo>
+                <Shps>
+                  <Shp>
+                    <HAWB>9641007600</HAWB>
+                    <LineItems>
+                      <LineItem>
+                        <GoodsItemNo>100</GoodsItemNo>
+                        <TariffQnty>1.000</TariffQnty>
+                        <MeasureUnitQualifier>KG</MeasureUnitQualifier>
+                        <DescOfGoods>FOOD SUPPLEMENT</DescOfGoods>
+                        <TariffCdNo>0409000000</TariffCdNo>
+                        <CtryMfctrerOrgn>US</CtryMfctrerOrgn>
+                        <Mfctrer />
+                        <InvNo>54321</InvNo>
+                        <InvLineVal>105.860</InvLineVal>
+                        <InvCrncyCd>USD</InvCrncyCd>
+                        <CtryOrgnCd>US</CtryOrgnCd>
+                        <ClassificationType>M</ClassificationType>
+                      </LineItem>
+                    </LineItems>
+                    <GrossWgt>4.76300</GrossWgt>
+                    <Cube>2.08655</Cube>
+                    <Dim>
+                      <DimUOM>KG</DimUOM>
+                      <Lgth>0.00000</Lgth>
+                      <Wdth>0.00000</Wdth>
+                      <Hght>0.00000</Hght>
+                    </Dim>
+                    <Incoterms>FOB</Incoterms>
+                    <DHLServiceCd>DDU</DHLServiceCd>
+                    <CargoDesc>Description 600</CargoDesc>
+                    <BillProdCd>P</BillProdCd>
+                    <ProdContentCd>WPX</ProdContentCd>
+                    <PackagingType>CT</PackagingType>
+                    <TCChargeAmt>0.000</TCChargeAmt>
+                    <TxAndDty>
+                      <CstmsVal>105.860</CstmsVal>
+                      <CstmsValCrncyCd>USD</CstmsValCrncyCd>
+                    </TxAndDty>
+                    <ShpImpter>
+                      <ImpterCoDtls>
+                        <CoName>heeloo</CoName>
+                        <TraderID>13014</TraderID>
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ImpterCoDtls>
+                      <ImpterCntctDtls />
+                    </ShpImpter>
+                    <ShpExpter>
+                      <ExpterCoDtls>
+                        <CoName></CoName>
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ExpterCoDtls>
+                      <ExpterCntctDtls />
+                    </ShpExpter>
+                    <ShpPayer>
+                      <DHLAcctNo>846555256</DHLAcctNo>
+                    </ShpPayer>
+                    <ShpCnsgne>
+                      <CnsgneCoDtls>
+                        <CoName>KATERINA ANASTASIOU cx2</CoName>
+                        <AddrEng>
+                          <AddrLn1>Kat address14</AddrLn1>
+                          <AddrLn2>Kat address24</AddrLn2>
+                          <AddrLn3>Kat address34</AddrLn3>
+                          <City>NICOSIA 4</City>
+                          <PostalCd>1010 4</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>SX</DeviceType>
+                              <DeviceDtls>9959593015</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <CtryCd>CY</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgneCoDtls>
+                      <CnsgneCntctDtls>
+                        <PreferredName>CONTACT NAME</PreferredName>
+                      </CnsgneCntctDtls>
+                      <VATNo>99999983I</VATNo>
+                      <DutyAcct>DUTYLCA</DutyAcct>
+                    </ShpCnsgne>
+                    <ShpCnsgnr>
+                      <CnsgnrCoDtls>
+                        <CoName>IHERB</CoName>
+                        <AddrEng>
+                          <AddrLn1>1795 WORLDWIDE BLVD.</AddrLn1>
+                          <AddrLn3>HEBRON</AddrLn3>
+                          <City>HEBRON</City>
+                          <PostalCd>41048</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>9516163600</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <State>KY</State>
+                          <CtryCd>US</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgnrCoDtls>
+                      <CnsgnrCntctDtls>
+                        <PreferredName>CUSTOMER SERVICE</PreferredName>
+                      </CnsgnrCntctDtls>
+                      <DHLAcctNo>846555256</DHLAcctNo>
+                    </ShpCnsgnr>
+                    <Frght>230.00000</Frght>
+                    <ShpOrgn>FFT</ShpOrgn>
+                    <ShpDest>LCA</ShpDest>
+                    <Status>444</Status>
+                    <Category>4</Category>
+                    <FrghtCrncy>USD</FrghtCrncy>
+                    <CustomAtts>
+                      <CustomAtt>
+                        <Name_Eng>Routed Transaction Indicator</Name_Eng>
+                        <Val>N</Val>
+                      </CustomAtt>
+                    </CustomAtts>
+                    <ShpCtryOrgn>US</ShpCtryOrgn>
+                    <ShpCtryDest>CY</ShpCtryDest>
+                    <SDPieces>1</SDPieces>
+                    <FlexFields>
+                      <Name_Eng>Actual Dimensional Weight</Name_Eng>
+                      <Val>0.00000</Val>
+                    </FlexFields>
+                    <ShpReceiverInfoSelected>A</ShpReceiverInfoSelected>
+                    <CleansingAgentUserId>dcc_dummy7</CleansingAgentUserId>
+                  </Shp>
+                  <Shp>
+                    <HAWB>9641007601</HAWB>
+                    <LineItems>
+                      <LineItem>
+                        <GoodsItemNo>101</GoodsItemNo>
+                        <TariffQnty>1.000</TariffQnty>
+                        <MeasureUnitQualifier>KG</MeasureUnitQualifier>
+                        <DescOfGoods>FOOD SUPPLEMENT</DescOfGoods>
+                        <TariffCdNo>0409000000</TariffCdNo>
+                        <CtryMfctrerOrgn>US</CtryMfctrerOrgn>
+                        <Mfctrer />
+                        <InvNo>54321</InvNo>
+                        <InvLineVal>105.860</InvLineVal>
+                        <InvCrncyCd>USD</InvCrncyCd>
+                        <CtryOrgnCd>US</CtryOrgnCd>
+                        <ClassificationType>M</ClassificationType>
+                      </LineItem>
+                    </LineItems>
+                    <GrossWgt>4.76300</GrossWgt>
+                    <Cube>2.08655</Cube>
+                    <Dim>
+                      <DimUOM>KG</DimUOM>
+                      <Lgth>0.00000</Lgth>
+                      <Wdth>0.00000</Wdth>
+                      <Hght>0.00000</Hght>
+                    </Dim>
+                    <Incoterms>FOB</Incoterms>
+                    <DHLServiceCd>DDU</DHLServiceCd>
+                    <CargoDesc>Description 601</CargoDesc>
+                    <BillProdCd>P</BillProdCd>
+                    <ProdContentCd>WPX</ProdContentCd>
+                    <PackagingType>CT</PackagingType>
+                    <TCChargeAmt>0.000</TCChargeAmt>
+                    <TxAndDty>
+                      <CstmsVal>105.860</CstmsVal>
+                      <CstmsValCrncyCd>USD</CstmsValCrncyCd>
+                    </TxAndDty>
+                    <ShpImpter>
+                      <ImpterCoDtls>
+                        <CoName>601</CoName>
+                        <TraderID>5310</TraderID>
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ImpterCoDtls>
+                      <ImpterCntctDtls />
+                    </ShpImpter>
+                    <ShpExpter>
+                      <ExpterCoDtls>
+                        <CoName></CoName>
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ExpterCoDtls>
+                      <ExpterCntctDtls />
+                    </ShpExpter>
+                    <ShpPayer>
+                      <DHLAcctNo>846555256</DHLAcctNo>
+                    </ShpPayer>
+                    <ShpCnsgne>
+                      <CnsgneCoDtls>
+                        <CoName>KATERINA 601</CoName>
+                        <AddrEng>
+                          <AddrLn1>PAPAFLESSA 7 FL 301 NICOSIA ENGOMI 2414</AddrLn1>
+                          <City>NICOSIA</City>
+                          <PostalCd>1010</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>99595930</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <CtryCd>CY</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgneCoDtls>
+                      <CnsgneCntctDtls>
+                        <PreferredName>CONTACT NAME</PreferredName>
+                      </CnsgneCntctDtls>
+                      <VATNo>99999983I</VATNo>
+                      <DutyAcct>DUTYLCA</DutyAcct>
+                    </ShpCnsgne>
+                    <ShpCnsgnr>
+                      <CnsgnrCoDtls>
+                        <CoName>test customer</CoName>
+                        <AddrEng>
+                          <AddrLn1>1795 WORLDWIDE BLVD.</AddrLn1>
+                          <AddrLn3>HEBRON</AddrLn3>
+                          <City>HEBRON</City>
+                          <PostalCd>41048</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>9516163600</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <State>KY</State>
+                          <CtryCd>US</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgnrCoDtls>
+                      <CnsgnrCntctDtls>
+                        <PreferredName>CUSTOMER SERVICE</PreferredName>
+                      </CnsgnrCntctDtls>
+                      <DHLAcctNo>846555256</DHLAcctNo>
+                    </ShpCnsgnr>
+                    <Frght>230.00000</Frght>
+                    <ShpOrgn>FFT</ShpOrgn>
+                    <ShpDest>LCA</ShpDest>
+                    <Category>6</Category>
+                    <Status>INST</Status>
+                    <FrghtCrncy>USD</FrghtCrncy>
+                    <CustomAtts>
+                      <CustomAtt>
+                        <Name_Eng>Routed Transaction Indicator</Name_Eng>
+                        <Val>N</Val>
+                      </CustomAtt>
+                    </CustomAtts>
+                    <ShpCtryOrgn>US</ShpCtryOrgn>
+                    <ShpCtryDest>CY</ShpCtryDest>
+                    <SDPieces>601</SDPieces>
+                    <FlexFields>
+                      <Name_Eng>Actual Dimensional Weight</Name_Eng>
+                      <Val>0.00000</Val>
+                    </FlexFields>
+                    <ShpReceiverInfoSelected>A</ShpReceiverInfoSelected>
+                    <CleansingAgentUserId>dcc_dummy7</CleansingAgentUserId>
+                  </Shp>
+                  <Shp>
+                    <HAWB>9641007602</HAWB>
+                    <LineItems>
+                      <LineItem>
+                        <GoodsItemNo>102</GoodsItemNo>
+                        <TariffQnty>1.000</TariffQnty>
+                        <MeasureUnitQualifier>KG</MeasureUnitQualifier>
+                        <DescOfGoods>FOOD SUPPLEMENT</DescOfGoods>
+                        <TariffCdNo></TariffCdNo>
+                        <CtryMfctrerOrgn>US</CtryMfctrerOrgn>
+                        <Mfctrer />
+                        <InvNo>54321</InvNo>
+                        <InvLineVal>105.860</InvLineVal>
+                        <InvCrncyCd>USD</InvCrncyCd>
+                        <CtryOrgnCd>US</CtryOrgnCd>
+                        <ClassificationType>M</ClassificationType>
+                      </LineItem>
+                    </LineItems>
+                    <GrossWgt>4.76300</GrossWgt>
+                    <Cube>2.08655</Cube>
+                    <Dim>
+                      <DimUOM>KG</DimUOM>
+                      <Lgth>0.00000</Lgth>
+                      <Wdth>0.00000</Wdth>
+                      <Hght>0.00000</Hght>
+                    </Dim>
+                    <Incoterms>FOB</Incoterms>
+                    <DHLServiceCd>DDU</DHLServiceCd>
+                    <CargoDesc>Description 602</CargoDesc>
+                    <BillProdCd>P</BillProdCd>
+                    <ProdContentCd>WPX</ProdContentCd>
+                    <PackagingType>CT</PackagingType>
+                    <TCChargeAmt>0.000</TCChargeAmt>
+                    <TxAndDty>
+                      <CstmsVal>105.860</CstmsVal>
+                      <CstmsValCrncyCd>USD</CstmsValCrncyCd>
+                    </TxAndDty>
+                    <ShpImpter>
+                      <ImpterCoDtls>
+                        <CoName>602</CoName>
+                        <TraderID>1234</TraderID>
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ImpterCoDtls>
+                      <ImpterCntctDtls />
+                    </ShpImpter>
+                    <ShpExpter>
+                      <ExpterCoDtls>
+                        <CoName></CoName>
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ExpterCoDtls>
+                      <ExpterCntctDtls />
+                    </ShpExpter>
+                    <ShpPayer>
+                      <DHLAcctNo>846555256</DHLAcctNo>
+                    </ShpPayer>
+                    <ShpCnsgne>
+                      <CnsgneCoDtls>
+                        <CoName></CoName>
+                        <AddrEng>
+                          <AddrLn1>PAPAFLESSA 7 FL 301 NICOSIA ENGOMI 2414</AddrLn1>
+                          <City>NICOSIA</City>
+                          <PostalCd>1010</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>99595930</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <CtryCd>CY</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgneCoDtls>
+                      <CnsgneCntctDtls>
+                        <PreferredName>CONTACT NAME</PreferredName>
+                      </CnsgneCntctDtls>
+                      <VATNo>99999983I</VATNo>
+                      <DutyAcct>DUTYLCA</DutyAcct>
+                    </ShpCnsgne>
+                    <ShpCnsgnr>
+                      <CnsgnrCoDtls>
+                        <CoName>IHERB</CoName>
+                        <AddrEng>
+                          <AddrLn1>1795 WORLDWIDE BLVD.</AddrLn1>
+                          <AddrLn3>HEBRON</AddrLn3>
+                          <City>HEBRON</City>
+                          <PostalCd>41048</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>9516163600</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <State>KY</State>
+                          <CtryCd>US</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgnrCoDtls>
+                      <CnsgnrCntctDtls>
+                        <PreferredName>CUSTOMER SERVICE</PreferredName>
+                      </CnsgnrCntctDtls>
+                      <DHLAcctNo>846555256</DHLAcctNo>
+                    </ShpCnsgnr>
+                    <Frght>230.00000</Frght>
+                    <ShpOrgn>FFT</ShpOrgn>
+                    <ShpDest>LCA</ShpDest>
+                    <Category>4</Category>
+                    <FrghtCrncy>USD</FrghtCrncy>
+                    <CustomAtts>
+                      <CustomAtt>
+                        <Name_Eng>Routed Transaction Indicator</Name_Eng>
+                        <Val>N</Val>
+                      </CustomAtt>
+                    </CustomAtts>
+                    <ShpCtryOrgn>US</ShpCtryOrgn>
+                    <ShpCtryDest>CY</ShpCtryDest>
+                    <SDPieces>603</SDPieces>
+                    <FlexFields>
+                      <Name_Eng>Actual Dimensional Weight</Name_Eng>
+                      <Val>0.00000</Val>
+                    </FlexFields>
+                    <ShpReceiverInfoSelected>A</ShpReceiverInfoSelected>
+                    <CleansingAgentUserId>dcc_dummy7</CleansingAgentUserId>
+                  </Shp>
+                </Shps>
+              </TDOC>
+            </TDOCs>
+          </Mvmt>
+        </Mvmts>
+      </Entry>
+    </Entries>
+  </Dtls>
+</CstmsInterface>

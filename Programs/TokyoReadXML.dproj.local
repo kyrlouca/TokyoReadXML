@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2015/05/27 14:52:50.000.763,=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/05/10 07:10:24.000.861,=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/06/27 11:29:35.000.119,=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/06/27 11:49:13.000.723,=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/06/29 11:32:56.000.430,=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/06/29 11:33:32.000.438,C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Data\DelphiProjects\TokyoReadXML\Programs\Main.pas</Transaction>
+    <Transaction>2017/06/29 11:33:32.000.438,C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Data\DelphiProjects\TokyoReadXML\Programs\Main.dfm</Transaction>
+    <Transaction>2017/06/29 11:33:42.000.512,C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Data\DelphiProjects\TokyoReadXML\Programs\TokyoReadXML.dproj</Transaction>
+    <Transaction>2017/06/29 11:38:59.378,=C:\Data\DelphiProjects\TokyoReadXML\Programs\Unit1.pas</Transaction>
+    <Transaction>2017/06/29 11:39:09.285,=C:\Data\DelphiProjects\TokyoReadXML\Programs\X_readFile.pas</Transaction>
+  </Transactions>
+</BorlandProject>

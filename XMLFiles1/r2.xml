@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CstmsInterface xsi:schemaLocation="http://www.dhl.com/CustomsInterface_v2_3.xsd DCE_CustomsInterface_WCO_V2_3_3.xsd" xmlns="http://www.dhl.com/CustomsInterface_v2_3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Hdr>
+    <MsgCtl>
+      <SchemaName>DCE Cstms Msg</SchemaName>
+      <SchemaVersion>2.3.3</SchemaVersion>
+      <MsgRevision>1.0.0</MsgRevision>
+      <MsgDate>2014-07-10</MsgDate>
+      <MsgTime>15:16:12+08:00</MsgTime>
+      <MsgRef></MsgRef>
+      <NoOfShps>1</NoOfShps>
+    </MsgCtl>
+    <CstmsMsgDtls>
+      <MsgEntryNo>99999</MsgEntryNo>
+      <CstmsTgtCtry>CY</CstmsTgtCtry>
+      <CstmsTgtMsgType>WCO</CstmsTgtMsgType>
+      <DCEMsgVersion>2.3</DCEMsgVersion>
+      <Module>ECA</Module>
+      <Gateway>LCA</Gateway>
+    </CstmsMsgDtls>
+    <EDIMsgHDrDtls>
+      <UNB>
+        <SyntaxId>
+          <SyntaxId>0000</SyntaxId>
+          <SyntaxVersionNo>0</SyntaxVersionNo>
+        </SyntaxId>
+        <InterchangeSender>
+          <SenderID>DMG</SenderID>
+        </InterchangeSender>
+        <InterchangeRecipient>
+          <RecipientID></RecipientID>
+        </InterchangeRecipient>
+        <DateTimeOfPrep>
+          <DateOfPrep>2014-07-10</DateOfPrep>
+          <TimeOfPrep>15:16:12+08:00</TimeOfPrep>
+        </DateTimeOfPrep>
+        <InterchangeControlRef></InterchangeControlRef>
+        <ApplicationReference>DCC</ApplicationReference>
+      </UNB>
+      <UNH>
+        <MsgRefNo></MsgRefNo>
+        <MsgId>
+          <MsgType></MsgType>
+          <MsgVersionNo></MsgVersionNo>
+          <MsgReleaseNo></MsgReleaseNo>
+          <ControllingAgency></ControllingAgency>
+        </MsgId>
+      </UNH>
+    </EDIMsgHDrDtls>
+  </Hdr>
+  <Dtls>
+    <Entries>
+      <Entry>
+        <Mvmts>
+          <Mvmt>
+            <TDOCs>
+              <TDOC>
+                <Shps>
+                  <Shp>
+                    <HAWB>9317318802</HAWB>
+                    <LineItems>
+                      <LineItem>
+                        <GoodsItemNo>111</GoodsItemNo>
+                        <TariffQnty>1.000</TariffQnty>
+                        <MeasureUnitQualifier>KG</MeasureUnitQualifier>
+                        <DescOfGoods>KIDS  TOTALLY WILD BOXY CROP GRAPHIC T - 10 - TEAL FALLS</DescOfGoods>
+                        <TariffCdNo>3305900000</TariffCdNo>
+                        <CtryMfctrerOrgn>VN</CtryMfctrerOrgn>
+                        <Mfctrer />
+                        <InvLineVal>9.600</InvLineVal>
+                        <InvCrncyCd>USD</InvCrncyCd>
+                        <CtryOrgnCd>VN</CtryOrgnCd>
+                        <ClassificationType>M</ClassificationType>
+                      </LineItem>
+                    </LineItems>
+                    <GrossWgt>1.95000</GrossWgt>
+                    <Cube>0.00000</Cube>
+                    <Dim>
+                      <DimUOM>KG</DimUOM>
+                      <Lgth>0.00000</Lgth>
+                      <Wdth>0.00000</Wdth>
+                      <Hght>0.00000</Hght>
+                    </Dim>
+                    <Incoterms>FOB</Incoterms>
+                    <DHLServiceCd>DTP</DHLServiceCd>
+                    <CargoDesc>KIDS  TOTALLY WILD BOXY CROP GRAPHIC T - 10 - TEAL FALLS</CargoDesc>
+                    <BillProdCd>P</BillProdCd>
+                    <ProdContentCd>WPX</ProdContentCd>
+                    <PackagingType>CT</PackagingType>
+                    <TCChargeAmt>0.000</TCChargeAmt>
+                    <TxAndDty>
+                      <CstmsVal>106.780</CstmsVal>
+                      <CstmsValCrncyCd>USD</CstmsValCrncyCd>
+                    </TxAndDty>
+                    <ShpImpter>
+                      <ImpterCoDtls>
+                        <CoName></CoName>
+                        <TraderID>39055</TraderID>
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ImpterCoDtls>
+                      <ImpterCntctDtls />
+                    </ShpImpter>
+                    <ShpExpter>
+                      <ExpterCoDtls>
+                        <CoName></CoName>
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ExpterCoDtls>
+                      <ExpterCntctDtls />
+                    </ShpExpter>
+                    <ShpPayer>
+                      <DHLAcctNo>845840414</DHLAcctNo>
+                    </ShpPayer>
+                    <ShpCnsgne>
+                      <CnsgneCoDtls>
+                        <CoName>CHRIS CHILDS</CoName>
+                        <AddrEng>
+                          <AddrLn1>123B GRIVA DIGENI</AddrLn1>
+                          <City>AGIOS TYCHONAS</City>
+                          <PostalCd>4050</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>99348868</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <CtryCd>CY</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgneCoDtls>
+                      <CnsgneCntctDtls>
+                        <PreferredName>N/A</PreferredName>
+                        <CntctDevices>
+                          <DeviceType>MOB</DeviceType>
+                          <DeviceDtls>99348868</DeviceDtls>
+                        </CntctDevices>
+                      </CnsgneCntctDtls>
+                      <VATNo>99999983I</VATNo>
+                      <DutyAcct>5001</DutyAcct>
+                    </ShpCnsgne>
+                    <ShpCnsgnr>
+                      <CnsgnrCoDtls>
+                        <CoName>BORDERFREE, INC</CoName>
+                        <AddrEng>
+                          <AddrLn1>4900 CREEKSIDE PKWY</AddrLn1>
+                          <AddrLn3>LOCKBOURNE</AddrLn3>
+                          <City>LOCKBOURNE</City>
+                          <PostalCd>43137</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>6465882742</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <State>OH</State>
+                          <CtryCd>US</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgnrCoDtls>
+                      <CnsgnrCntctDtls>
+                        <PreferredName>ACCOUNTS PAYABLE</PreferredName>
+                      </CnsgnrCntctDtls>
+                      <DHLAcctNo>845840414</DHLAcctNo>
+                    </ShpCnsgnr>
+                    <ShpOrgn>ORD</ShpOrgn>
+                    <ShpDest>LCA</ShpDest>
+                    <Category>5</Category>
+                    <CustomAtts>
+                      <CustomAtt>
+                        <Name_Eng>Routed Transaction Indicator</Name_Eng>
+                        <Val>N</Val>
+                      </CustomAtt>
+                    </CustomAtts>
+                    <ShpCtryOrgn>US</ShpCtryOrgn>
+                    <ShpCtryDest>CY</ShpCtryDest>
+                    <SDPieces>1</SDPieces>
+                    <FlexFields>
+                      <Name_Eng>Actual Dimensional Weight</Name_Eng>
+                      <Val>0.00000</Val>
+                    </FlexFields>
+                    <ShpReceiverInfoSelected>A</ShpReceiverInfoSelected>
+                    <CleansingAgentUserId>dcc_dummy7</CleansingAgentUserId>
+                  </Shp>
+                </Shps>
+              </TDOC>
+            </TDOCs>
+          </Mvmt>
+        </Mvmts>
+      </Entry>
+    </Entries>
+  </Dtls>
+</CstmsInterface>

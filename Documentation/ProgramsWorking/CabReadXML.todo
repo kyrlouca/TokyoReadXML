@@ -1,0 +1,3 @@
+{TODO : Generator for Sender Invoice Serial}{DONE : Partial Hawb if duplicate}{TODO : Check for duplicate mawbs}{TODO : Create a sender invoice generator - use it in cab as well}{DONE :
+If hawb exists then use serial as Hab_id
+}
