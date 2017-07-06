@@ -97,13 +97,15 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="Main.pas">
-            <Form>Form1</Form>
+            <Form>mainFRm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="X_readFile.pas">
             <Form>X_readFileFRM</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="G_kyriacosTypes.pas"/>
+        <DCCReference Include="G_KyrSQL.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

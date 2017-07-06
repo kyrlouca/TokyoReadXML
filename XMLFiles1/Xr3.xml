@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CstmsInterface xsi:schemaLocation="http://www.dhl.com/DCE_CustomsInterface_WCO_V1_6.xsd DCE_CustomsInterface_WCO_V1_6.xsd" xmlns="http://www.dhl.com/CustomsInterface_v1_6.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Hdr>
+    <MsgCtl>
+      <SchemaName>DCE Cstms Msg</SchemaName>
+      <SchemaVersion>2.3.3</SchemaVersion>
+      <MsgRevision>1.0.0</MsgRevision>
+      <MsgDate>2014-07-02</MsgDate>
+      <MsgTime>04:06:04+08:00</MsgTime>
+      <MsgRef />
+      <NoOfShps>200</NoOfShps>
+    </MsgCtl>
+    <CstmsMsgDtls>
+      <MsgEntryNo>99999</MsgEntryNo>
+      <CstmsTgtCtry>CY</CstmsTgtCtry>
+      <CstmsTgtMsgType>WCO</CstmsTgtMsgType>
+      <DCEMsgVersion>2.3</DCEMsgVersion>
+      <Module>EEWPX</Module>
+      <Gateway>LCA</Gateway>
+    </CstmsMsgDtls>
+    <EDIMsgHDrDtls>
+      <UNB>
+        <SyntaxId>
+          <SyntaxId>0000</SyntaxId>
+          <SyntaxVersionNo>0</SyntaxVersionNo>
+        </SyntaxId>
+        <InterchangeSender>
+          <SenderID>DMG</SenderID>
+        </InterchangeSender>
+        <InterchangeRecipient>
+          <RecipientID />
+        </InterchangeRecipient>
+        <DateTimeOfPrep>
+          <DateOfPrep>2014-07-02</DateOfPrep>
+          <TimeOfPrep>04:06:04+08:00</TimeOfPrep>
+        </DateTimeOfPrep>
+        <InterchangeControlRef />
+        <ApplicationReference>DCC</ApplicationReference>
+      </UNB>
+      <UNH>
+        <MsgRefNo />
+        <MsgId>
+          <MsgType />
+          <MsgVersionNo />
+          <MsgReleaseNo />
+          <ControllingAgency />
+        </MsgId>
+      </UNH>
+    </EDIMsgHDrDtls>
+  </Hdr>
+  <Dtls>
+    <Entries>
+      <Entry>
+        <Mvmts>
+          <Mvmt>
+            <TDOCs>
+              <TDOC>
+                <TDOCNo>61591381603</TDOCNo>
+                <TransportMode>4</TransportMode>
+                <EquipmentID>H369935193</EquipmentID>
+                <Shps>
+                  <Shp>
+                    <HAWB>1365779612</HAWB>
+                    <LineItems>
+                      <LineItem>
+                        <GoodsItemNo>1</GoodsItemNo>
+                        <TariffQnty>1.000</TariffQnty>
+                        <DescOfGoods>DRESS OF GIFT</DescOfGoods>
+                        <CtryMfctrerOrgn>CN</CtryMfctrerOrgn>
+                        <Mfctrer />
+                        <InvLineVal>81.000</InvLineVal>
+                        <InvCrncyCd>USD</InvCrncyCd>
+                        <CtryOrgnCd>CN</CtryOrgnCd>
+                      </LineItem>
+                    </LineItems>
+                    <GrossWgt>2.40000</GrossWgt>
+                    <Cube>0.00000</Cube>
+                    <Dim>
+                      <Lgth>0.00000</Lgth>
+                      <Wdth>0.00000</Wdth>
+                      <Hght>0.00000</Hght>
+                    </Dim>
+                    <CargoDesc>DRESS OF GIFT</CargoDesc>
+                    <BillProdCd>P</BillProdCd>
+                    <ProdContentCd>WPX</ProdContentCd>
+                    <PackagingType>CT</PackagingType>
+                    <TotPackages>1</TotPackages>
+                    <PymtMode>A</PymtMode>
+                    <TCChargeAmt>0.000</TCChargeAmt>
+                    <TxAndDty>
+                      <CstmsVal>81.000</CstmsVal>
+                      <CstmsValCrncyCd>USD</CstmsValCrncyCd>
+                    </TxAndDty>
+                    <ReasonForExpt>P</ReasonForExpt>
+                    <ShpImpter>
+                      <ImpterCoDtls>
+                        <CoName />
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ImpterCoDtls>
+                      <ImpterCntctDtls />
+                    </ShpImpter>
+                    <ShpExpter>
+                      <ExpterCoDtls>
+                        <CoName />
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ExpterCoDtls>
+                      <ExpterCntctDtls />
+                    </ShpExpter>
+                    <ShpPayer>
+                      <DHLAcctNo>602314215</DHLAcctNo>
+                    </ShpPayer>
+                    <ShpCnsgne>
+                      <CnsgneCoDtls>
+                        <CoName>DIONYSIA DIONYSIOU</CoName>
+                        <AddrEng>
+                          <AddrLn1>CHRISTOFI ERGATOUDI 36AAG</AddrLn1>
+                          <AddrLn2>GEORGIOS XAVOUZAS</AddrLn2>
+                          <AddrLn3>LIMASSOL</AddrLn3>
+                          <City>LIMASSOL</City>
+                          <PostalCd>3080</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>0035799335575</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <CtryCd>CY</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgneCoDtls>
+                      <CnsgneCntctDtls>
+                        <PreferredName>DIONYSIA DIONYSIOU</PreferredName>
+                      </CnsgneCntctDtls>
+                    </ShpCnsgne>
+                    <ShpCnsgnr>
+                      <CnsgnrCoDtls>
+                        <CoName>OPTIMALL NI FASHION GARMENT.CO.LTD</CoName>
+                        <AddrEng>
+                          <AddrLn1>ZHONGYI ROAD NO.1215 ROOM 1B-16</AddrLn1>
+                          <AddrLn2>RJFANGZHI@163.COM</AddrLn2>
+                          <AddrLn3>3112965649-6104420000</AddrLn3>
+                          <City>SHANGHAI</City>
+                          <PostalCd>200235</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>31256817</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <CtryCd>CN</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgnrCoDtls>
+                      <CnsgnrCntctDtls>
+                        <PreferredName>MY YI</PreferredName>
+                      </CnsgnrCntctDtls>
+                      <DHLAcctNo>602314215</DHLAcctNo>
+                    </ShpCnsgnr>
+                    <ShpOrgn>SHA</ShpOrgn>
+                    <ShpDest>LCA</ShpDest>
+                    <CustomAtts>
+                      <CustomAtt>
+                        <Name_Eng>Routed Transaction Indicator</Name_Eng>
+                        <Val>N</Val>
+                      </CustomAtt>
+                    </CustomAtts>
+                    <ShpCtryOrgn>CN</ShpCtryOrgn>
+                    <ShpCtryDest>CY</ShpCtryDest>
+                    <PUDate>2014-06-28</PUDate>
+                    <PUTime>15:51:00+08:00</PUTime>
+                    <SDPieces>1</SDPieces>
+                    <ManifestedPieces>1</ManifestedPieces>
+                    <SplitShpInd>R</SplitShpInd>
+                    <FlexFields>
+                      <Name_Eng>Actual Dimensional Weight</Name_Eng>
+                      <Val>0.00000</Val>
+                    </FlexFields>
+                  </Shp>
+                  <Shp>
+                    <HAWB>1369023493</HAWB>
+                    <LineItems>
+                      <LineItem>
+                        <GoodsItemNo>1</GoodsItemNo>
+                        <TariffQnty>1.000</TariffQnty>
+                        <DescOfGoods>DRESS</DescOfGoods>
+                        <CtryMfctrerOrgn>SG</CtryMfctrerOrgn>
+                        <Mfctrer />
+                        <InvLineVal>0.000</InvLineVal>
+                        <InvCrncyCd>USD</InvCrncyCd>
+                        <CtryOrgnCd>SG</CtryOrgnCd>
+                      </LineItem>
+                    </LineItems>
+                    <GrossWgt>2.00000</GrossWgt>
+                    <Cube>0.00000</Cube>
+                    <Dim>
+                      <Lgth>0.00000</Lgth>
+                      <Wdth>0.00000</Wdth>
+                      <Hght>0.00000</Hght>
+                    </Dim>
+                    <CargoDesc>DRESS</CargoDesc>
+                    <BillProdCd>P</BillProdCd>
+                    <ProdContentCd>WPX</ProdContentCd>
+                    <PackagingType>CT</PackagingType>
+                    <TotPackages>1</TotPackages>
+                    <PymtMode>A</PymtMode>
+                    <TCChargeAmt>0.000</TCChargeAmt>
+                    <TxAndDty>
+                      <CstmsVal>50.000</CstmsVal>
+                      <CstmsValCrncyCd>USD</CstmsValCrncyCd>
+                    </TxAndDty>
+                    <ShpImpter>
+                      <ImpterCoDtls>
+                        <CoName />
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ImpterCoDtls>
+                      <ImpterCntctDtls />
+                    </ShpImpter>
+                    <ShpExpter>
+                      <ExpterCoDtls>
+                        <CoName />
+                        <AddrEng />
+                        <AddrLclLang>
+                          <Cntct />
+                        </AddrLclLang>
+                      </ExpterCoDtls>
+                      <ExpterCntctDtls />
+                    </ShpExpter>
+                    <ShpPayer>
+                      <DHLAcctNo>610664494</DHLAcctNo>
+                    </ShpPayer>
+                    <ShpCnsgne>
+                      <CnsgneCoDtls>
+                        <CoName>JUSTYNA KOCHANSKA</CoName>
+                        <AddrEng>
+                          <AddrLn1>CHARALAMBOUS KIRYLLOU NO 5 PAPHOS</AddrLn1>
+                          <AddrLn3>CHLORAKA</AddrLn3>
+                          <City>CHLORAKA</City>
+                          <PostalCd>8220</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>35796867403</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <CtryCd>CY</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgneCoDtls>
+                      <CnsgneCntctDtls>
+                        <PreferredName>JUSTYNA KOCHANSKA</PreferredName>
+                      </CnsgneCntctDtls>
+                    </ShpCnsgne>
+                    <ShpCnsgnr>
+                      <CnsgnrCoDtls>
+                        <CoName>UNISON EXHIBITION $CONVENTION</CoName>
+                        <AddrEng>
+                          <AddrLn1>16 KALLANG PLACE #03-25/26</AddrLn1>
+                          <AddrLn2>339156</AddrLn2>
+                          <AddrLn3>SINGAPORE</AddrLn3>
+                          <City>SINGAPORE</City>
+                          <PostalCd>339156</PostalCd>
+                          <Cntct>
+                            <CntctDevices>
+                              <DeviceType>TEL</DeviceType>
+                              <DeviceDtls>90681865</DeviceDtls>
+                            </CntctDevices>
+                          </Cntct>
+                          <CtryCd>SG</CtryCd>
+                        </AddrEng>
+                        <AddrLclLang />
+                      </CnsgnrCoDtls>
+                      <CnsgnrCntctDtls>
+                        <PreferredName>TONY SY</PreferredName>
+                      </CnsgnrCntctDtls>
+                      <DHLAcctNo>610664494</DHLAcctNo>
+                    </ShpCnsgnr>
+                    <ShpOrgn>SIN</ShpOrgn>
+                    <ShpDest>LCA</ShpDest>
+                    <CustomAtts>
+                      <CustomAtt>
+                        <Name_Eng>Routed Transaction Indicator</Name_Eng>
+                        <Val>N</Val>
+                      </CustomAtt>
+                    </CustomAtts>
+                    <ShpCtryOrgn>SG</ShpCtryOrgn>
+                    <ShpCtryDest>CY</ShpCtryDest>
+                    <PUDate>2014-06-27</PUDate>
+                    <PUTime>19:53:00+08:00</PUTime>
+                    <SDPieces>1</SDPieces>
+                    <ManifestedPieces>1</ManifestedPieces>
+                    <SplitShpInd>R</SplitShpInd>
+                    <FlexFields>
+                      <Name_Eng>Actual Dimensional Weight</Name_Eng>
+                      <Val>0.00000</Val>
+                    </FlexFields>
+                  </Shp>
+                </Shps>
+              </TDOC>
+            </TDOCs>
+            <DepartureDate>2014-06-30</DepartureDate>
+            <ArrivalDate>2014-07-01</ArrivalDate>
+            <ArrivalTime>00:00:00+03:00</ArrivalTime>
+            <PlaceOfLoadingCdSrva>ATH</PlaceOfLoadingCdSrva>
+            <PlaceOfLoadingCdFacility>GTW</PlaceOfLoadingCdFacility>
+            <PlaceOfDischargeCdSrva>LCA</PlaceOfDischargeCdSrva>
+            <MvmtNo>3V165B</MvmtNo>
+          </Mvmt>
+        </Mvmts>
+      </Entry>
+    </Entries>
+  </Dtls>
+</CstmsInterface>

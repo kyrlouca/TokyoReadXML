@@ -1,0 +1,4069 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by Simon Tetley (private) -->
+<!--Created with Liquid XML Studio 6.1.17.0 - FREE Community Edition (http://www.liquid-technologies.com)-->
+<!--CHANGE LOG:
+	 ============
+		Changes Since v1.1
+		===============
+			Added global complex type EDIMsgHdrDtls
+			Added global complex type ResponseErrorDetailsType
+			Removed Elements: 
+			CstmsMsgDtls/BrokerID - use EDIMsgHdrDtls/UNB/RecipientReferencePassword
+			CstmsMsgDtls/CstmsMsgTypeVersion - use EDIMsgHdrDtls/UNH/MsgID/MsgVersionNo
+			CstmsMsgDtls/CstmsMsgTypeRelease - use EDIMsgHdrDtls/UNH/MsgID/MsgReleaseNo
+			CstmsMsgDtls/MsgCd - use EDIMsgHdrDtls/UNB/InterchangeControlRef
+			CstmsMsgDtls/SenderID - use EDIMsgHdrDtls/UNB/InterchangeSender/SenderID
+			CstmsMsgDtls/MsgType - use EDIMsgHdrDtls/UNH/MsgID/MsgType
+
+		Changes Since v1.2
+		===============
+			Added Mvmt/PlaceOfLoadingCtyryCd
+			Added Mvmt/PlaceOfDischargeCtryCd
+			Moved Entries complex type to CstmsInterface/Entries. Hierarchy is now Entry/Mvmt/Tdoc/Shp/Line instead of 		Mvmt/Tdoc/Entry/Shp/Line
+
+		Changes since v1.3
+		==============
+		 Changed optionality of some fields from mandatory to optional.
+		 Annotation added to all elements describing their usage.
+
+		Changes since v1.4
+		==============
+		 LineItems changed from Mandatory to Optional
+		 Tax&Duty changed from Mandatory to Optional
+
+		Changes since 1.5
+		==============
+		 Added back in Module element
+-->
+<xs:schema xmlns:mstns="http://www.dhl.com/CustomsInterface_v1_6.xsd" xmlns:xsd="undefined" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.dhl.com/CustomsInterface_v1_6.xsd" elementFormDefault="qualified" version="1.6" id="WCOG7">
+	<xs:element name="CstmsInterface">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Hdr" type="mstns:MsgHdr"/>
+				<xs:element name="Dtls">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Entries">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Entry" type="mstns:Entry" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ResponseErrorDetails" type="mstns:ResponseErrorDetailsType" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="MsgHdr">
+		<xs:sequence>
+			<xs:element name="MsgCtl">
+				<xs:annotation>
+					<xs:documentation>The Msg Ctrl section describes the schema           naming and version, together with the Msg        Dtls such as Msg version, Msg date, time etc.
+              </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SchemaName" type="xs:string" fixed="DCE Cstms Msg"/>
+						<xs:element name="SchemaVersion" type="xs:string" fixed="1.6.0"/>
+						<xs:element name="MsgRevision" fixed="1.0.0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string"/>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="MsgDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>For EDIFACT messages this will contain the date of preparation as described in the UNOC header.			</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="MsgTime" type="xs:time">
+							<xs:annotation>
+								<xs:documentation>For EDIFACT messages this will contain the time of preparation as described in the UNOC header.		</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="MsgRef" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>A unique reference that may be given to the message. May be used as correlation identifier.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="NoOfShps" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Total no of shipments contained within the message.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CstmsMsgDtls">
+				<xs:annotation>
+					<xs:documentation>he Msg Dtls segment provides information to enable the Msg Brkr to translate, transform and route the Msg appropriately. Additionally it contains information that enables the Msg Brkr to build an appropriate Msg Hdr where this is required. For example the EDI CUSDEC Msg
+that needs to be sent to NZ Cstms.
+              </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="MsgEntryNo">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="CstmsTgtCtry">
+							<xs:annotation>
+								<xs:documentation>This specifies to which Ctry
+the Msg is to be sent               </xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="2"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="CstmsTgtMsgType">
+							<xs:annotation>
+								<xs:documentation>This specifies the name and Dtls of the output Msg which must be created from on the content carried in the xml instance document.              </xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="35"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="DCEMsgVersion">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Module" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>May be used for various purposes. Primary use is to indicate Import, Export or Transit for the declaration.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Gateway">
+							<xs:annotation>
+								<xs:documentation>This is the gateway or port code that is clearing the shipment.		</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="BatchCtrlNo" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="HAZMATInd" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="1"/>
+									<xs:enumeration value="Y"/>
+									<xs:enumeration value="N"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="FilingOptInd" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="EDIMsgHDrDtls">
+				<xs:annotation>
+					<xs:documentation>The EDI Message header setcion uses the tags from the EDIFACT specification (v D05B). The elements in this section will be of most use when the target message is EDIFACT, although they will also be used elsewhere.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="UNB">
+							<xs:annotation>
+								<xs:documentation>Beginning of message
+A segment identifying the declaration type and reference</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SyntaxId">
+										<xs:annotation>
+											<xs:documentation>Identification of the agency controlling the syntax, the syntax level and version number, and the service code directory.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="SyntaxId">
+													<xs:annotation>
+														<xs:documentation>Coded identification of the agency controlling the syntax, and of the character repertoire used in an interchange. An exampl eof this would be UN0A</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="4"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="SyntaxVersionNo">
+													<xs:annotation>
+														<xs:documentation>This is the version number of the syntax defined in SYntaxId above. This is currently a value from 1 to 4.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="1"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="InterchangeSender">
+										<xs:annotation>
+											<xs:documentation>These elements define the identification the message</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="SenderID">
+													<xs:annotation>
+														<xs:documentation>This is the identification of the sender to the receiving party. This is usually mutually defined between the parties, and will be standard for all EDIFACT message interchanges.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="35"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="PartnerIDCodeQualifier" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>This is the code identifying the controlling agency that has defined the source of the sender ID. There is a code list for EDIFACT. For exampl DUNS would indicate that the value in SenderID is a DUNS number. In the case of customs interchanges this will usually be 'ZZZ" - which indicates mutually agreed between the two parties in the interchange.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="4"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="AddressForReverseRouting" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>This indicates the system address for any message response.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="255"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="InterchangeRecipient">
+										<xs:annotation>
+											<xs:documentation>These elements define the  identification of the recipient of the message.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="RecipientID">
+													<xs:annotation>
+														<xs:documentation>This is the identification of the receiver of the message. This is usually mutually defined between the parties, and will be standard for all EDIFACT message interchanges.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="35"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="PartnerIDCodeQualifier" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>This is the code identifying the controlling agency that has defined the source of the receipient ID. There is a code list for EDIFACT. For example DUNS would indicate that the value in SenderID is a DUNS number. In the case of customs interchanges this will usually be 'ZZZ" - which indicates mutually agreed between the two parties in the interchange.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="4"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="RoutingAddress" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>This is the routing address of the message.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="255"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DateTimeOfPrep">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="DateOfPrep" type="xs:date">
+													<xs:annotation>
+														<xs:documentation>This is the date of preparation of the message. This should be in ISO 8601 format - CCYYMMDD.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="TimeOfPrep" type="xs:time">
+													<xs:annotation>
+														<xs:documentation>This is the time of preparation of the message. This is usually the local time relative to the sender. This should follow ISO 8601 format standards for time representation, with an option for including a UTC offset in the event that it is required for the time to be presented as UTC with an offset.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="InterchangeControlRef">
+										<xs:annotation>
+											<xs:documentation>Unique reference assigned by the sender to an interchange. This could be an entry number, but usually needs to be unique for each interchange. It can also be used as a correlation identifier.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="14"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="RecipientReferencePassword" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Reference or password as agreed between the communicating partners.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="RecipientReferencePassword">
+													<xs:annotation>
+														<xs:documentation>Reference or password to the recipient's system or to a third party network as specified in the partners' interchange agreement. AN example of this might be the broker PIN as used in New Zealand.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="14"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="RecipientReferencePasswordQualifier" minOccurs="0">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="2"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ApplicationReference" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Identification of the application area assigned by the sender, to which the messages in the interchange relate e.g. the message type, if all the messages in the interchange are of the same type. This should be defaulted to DCE unless there are specific requirements in a country for something else.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="14"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="ProcessingPriorityCode" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Code issued by the sender specifying priority for the message handling.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:length value="1"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="AcknowledgementRequest" type="xs:decimal" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Used if the sender wishes to receive an acknowledgement. This should be left blank unless there are specific country requirements.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="CommunicationsAgreementId" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Indication of the agreement under which the communication interchange is taking place. This should be left blank unless there are specific requirements for the country.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="35"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="TestIndicator" type="xs:decimal" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Indicates if the interchange taking place is a test. This should not be used unless there are specific requirements for a country.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="UNH">
+							<xs:annotation>
+								<xs:documentation>A service segment starting and uniquely identifying a message.
+If the target message is an EDIFACT message then the MsgId element of this message should contain specific values. See the notes for the individual elements.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="MsgRefNo">
+										<xs:annotation>
+											<xs:documentation>Unique reference number assigned by the sender to the message. This could be the entry number, or it could be used for correlation identification if the receiver returns the same reference number. Usage will depend on country requirements.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="14"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="MsgId">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="MsgType">
+													<xs:annotation>
+														<xs:documentation>Code identifying a type of message and assigned by its controlling agency. This is element 0065 in the EDIFACT specification. For example if the target message is EDIFACT CUSDEC, then this element should contain "CUSDEC"</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="6"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="MsgVersionNo">
+													<xs:annotation>
+														<xs:documentation>This is the version number of the message type in MsgType. If the target message is an EDIFACT message then this will be the version number of the target EDIFACT message standard. For example if the target message is CUSDEC, and it is the CUSDEC mesasge from the D05B specification, then this should be "D". </xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="3"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="MsgReleaseNo">
+													<xs:annotation>
+														<xs:documentation>This is the release number of the message type in MsgType. If the target message is an EDIFACT message then this will be the version number of the target EDIFACT message standard. For example if the target message is CUSDEC, and it is the CUSDEC mesasge from the D05B specification, then this should be "05B". </xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="3"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="ControllingAgency">
+													<xs:annotation>
+														<xs:documentation>This is the controlling agency for the messgae specification of the target message. In the case of EDIFACT messages this is "UN".</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="2"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="AssociationAssignedCode" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>This is further annotation refining and extending the identification of the message.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="0"/>
+															<xs:maxLength value="6"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="CommonAccessReference" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Reference serving as a key to relate all subsequent transfers of data to the same business case or file. This may be used as a correlation identifier to relate return messages to sent messages.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="35"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="StatusOfTheTransfer" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Statement that the message is one in a sequence of transfers relating to the same topic.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="SequenceOfTransfers" type="xs:string">
+													<xs:annotation>
+														<xs:documentation>Number assigned by the sender indicating the transfer sequence of a message related to the same topic. The message could be an addition or a change to an earlier transfer related to the same topic.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="FirstAndLastTransfer" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Indication used for the first and last message in a sequence of messages related to the same topic.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="1"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CtrlTots" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ctrl Tots that can be used as required
+              </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Ctrl_Tot_1" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:totalDigits value="25"/>
+									<xs:fractionDigits value="5"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Ctrl_Tot_2" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:totalDigits value="25"/>
+									<xs:fractionDigits value="5"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Ctrl_Tot_3" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="5"/>
+									<xs:totalDigits value="25"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Ctrl_Tot_4" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="5"/>
+									<xs:totalDigits value="25"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Ctrl_Tot_5" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="5"/>
+									<xs:totalDigits value="25"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Ctrl_Tot_6" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="5"/>
+									<xs:totalDigits value="25"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Ctrl_Tot_7" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="5"/>
+									<xs:totalDigits value="25"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Ctrl_Tot_8" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="5"/>
+									<xs:totalDigits value="25"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Ctrl_Tot_9" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="5"/>
+									<xs:totalDigits value="25"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Cnsgne">
+		<xs:sequence>
+			<xs:element name="CnsgneCoDtls" type="mstns:CoDtls"/>
+			<xs:element name="CnsgneCntctDtls" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="SpecialInstrctns">
+				<xs:annotation>
+					<xs:documentation>Special Instructions are provided by Customers to DHL for the purpose of enabling DHL to execute its business in accordance with customer wishes. For example a delivery special instruction may be to leave a Shp with a neighbour in the event that the recipient is away/absent.		  </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="VATNo">
+				<xs:annotation>
+					<xs:documentation>A VAT registration No is alphanumeric and consists of up to 25 characters.  The first two letters indicate the respective member state, for example DE for Germany.
+When entering your VAT No, it must include the two letters that identify your EU member state (e.g. DK for Denmark, EL for Greece, and GB for the United Kingdom).
+			</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DutyAcct">
+				<xs:annotation>
+					<xs:documentation>Documentation goes here</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DeferAcct">
+				<xs:annotation>
+					<xs:documentation>Tax Definition:-An Acct underwritten by a bank or insurance	Co to which Impt duties due are posted.  </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DHLAcctNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Specific. This is the DHL account number and may be populated if the consignee is a DHL customer.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="RefNo">
+				<xs:annotation>
+					<xs:documentation>DHL Specific. The consignee reference number. If available this will be on the pre-alert or the shipment detail.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="RltdShpr" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Related shipper information. Used if there is a shipper/consignee relationship that needs to be declared.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CnsgneAtts">
+				<xs:annotation>
+					<xs:documentation>
+			</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="CustomAtt" type="mstns:CustomAtt">
+							<xs:annotation>
+								<xs:documentation>Custom Atts (Flex Fields) are user defined fields. THese are available to add flexibility to the source applications and messaging to cater for additional requirements in different countries. In this context the custom Atts are applied to customer (Cnsgne). 		</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RltdShprFlag" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+						<xs:enumeration value=" "/>
+						<xs:enumeration value="Y"/>
+						<xs:enumeration value="N"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CustomerID">
+				<xs:annotation>
+					<xs:documentation>Unique identification for the consignee.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DtlsOrgnCM" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Flag to indicate if the consignee details are from the DHL customer database. This will be set to "Y" if true, and "N" if false. If the consiignee details are from teh customer master then the DHL account number should be populated.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+						<xs:enumeration value="Y"/>
+						<xs:enumeration value="N"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Instrctns" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Any instructions that the receiver (consignee) has for processing of declarable shipments should be entered in this element.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Payer">
+		<xs:sequence>
+			<xs:element name="PayerCoDtls" type="mstns:CoDtls" minOccurs="0"/>
+			<xs:element name="PayerCntctDtls" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="DHLAcctNo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VanningParty">
+		<xs:sequence>
+			<xs:element name="VanningPartyCoDtls" type="mstns:CoDtls" minOccurs="0"/>
+			<xs:element name="VanningPartyCntctDtls" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="DHLAcctNo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Mfctrer">
+		<xs:sequence>
+			<xs:element name="Name" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="MfctrerName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="70"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TraderID" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="70"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="MfctrerAddr" type="mstns:AddrEnglish" minOccurs="0"/>
+			<xs:element name="MfctrerAddrLclLang" type="mstns:AddrLclLang"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Agent">
+		<xs:sequence>
+			<xs:element name="Name" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="TraderID">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AgentAddr" type="mstns:AddrEnglish" minOccurs="0"/>
+			<xs:element name="AgentAddrLclLang" type="mstns:AddrLclLang"/>
+			<xs:element name="Status">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ClearanceNo">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Buyer">
+		<xs:sequence minOccurs="0">
+			<xs:element name="Name" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="BuyerCo" type="mstns:CoDtls" minOccurs="0"/>
+			<xs:element name="TraderID" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="BuyerAddr" type="mstns:AddrEnglish" minOccurs="0"/>
+			<xs:element name="BuyerAddrLclLang" type="mstns:AddrLclLang" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Seller">
+		<xs:sequence>
+			<xs:element name="SellerCoDtls" type="mstns:CoDtls" minOccurs="0"/>
+			<xs:element name="SellerCntctDtls" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="DHLAcctNo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Brkr">
+		<xs:sequence>
+			<xs:element name="BrkrCoDtls" type="mstns:CoDtls" minOccurs="0"/>
+			<xs:element name="BrkrCntctDtls" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="DHLAcctNo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Impter">
+		<xs:sequence>
+			<xs:element name="ImpterCoDtls" type="mstns:CoDtls" minOccurs="0"/>
+			<xs:element name="ImpterCntctDtls" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="DHLAcctNo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Expter">
+		<xs:sequence>
+			<xs:element name="ExpterCoDtls" type="mstns:CoDtls" minOccurs="0"/>
+			<xs:element name="ExpterCntctDtls" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="DHLAcctNo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Cnsgnr">
+		<xs:sequence>
+			<xs:element name="CnsgnrCoDtls" type="mstns:CoDtls" minOccurs="0"/>
+			<xs:element name="CnsgnrCntctDtls" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="DHLAcctNo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SupplierCd" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SpecialInstrctns">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CnsgnrAtts">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CustomAtt" type="mstns:CustomAtt"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TaxAndDuty">
+		<xs:sequence>
+			<xs:element name="DutyTaxFee" type="xs:decimal"/>
+			<xs:element name="Deductible" type="xs:decimal"/>
+			<xs:element name="TotTariff" type="xs:decimal"/>
+			<xs:element name="TotDuty" type="xs:decimal"/>
+			<xs:element name="TotTax" type="xs:decimal"/>
+			<xs:element name="TotFees" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LineItemTaxAndDuty">
+		<xs:sequence>
+			<xs:element name="Duty">
+				<xs:annotation>
+					<xs:documentation>Computed duty for the line item.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="5"/>
+						<xs:totalDigits value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TaxRate" type="mstns:TaxRate_6_3">
+				<xs:annotation>
+					<xs:documentation>Tax rate used in the calulation of the line line item duty.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TaxType">
+				<xs:annotation>
+					<xs:documentation>Type of tax used for the calulation of the line item duty.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="mstns:TaxType_6">
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Fees">
+				<xs:annotation>
+					<xs:documentation>Sum of any additinal fees payable for the line item.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="5"/>
+						<xs:totalDigits value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Tot">
+				<xs:annotation>
+					<xs:documentation>Total of duties and fees payable for the line item. </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="5"/>
+						<xs:totalDigits value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CstmsResponseStatus">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">These values should reflect the Cstms status configured in ELCS.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="4"/>
+			<xs:pattern value="[A-Za-z0-9]*"/>
+			<xs:enumeration value=""/>
+			<xs:enumeration value="CLR"/>
+			<xs:enumeration value="REJ"/>
+			<xs:enumeration value="HLD"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Module">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="I"/>
+			<xs:enumeration value="E"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="boolean">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="True"/>
+			<xs:enumeration value="False"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DTm">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Date Time in ddMMyyHHmm format.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value=""/>
+			<xs:pattern value="[0-3]{1}[0-9]{1}[0-1]{1}[0-9]{1}[0-9]{2}[0-2]{1}[0-9]{1}[0-5]{1}[0-9]{1}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="additionalFeeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Customs"/>
+			<xs:enumeration value="DHL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TaxRate_6_3">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="6"/>
+			<xs:fractionDigits value="3"/>
+			<xs:pattern value="[+\-]?\d{3}\.\d{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TaxType_6">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="cDate">
+		<xs:annotation>
+			<xs:documentation>date specified in format CCYY-MM-DD</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="cTime">
+		<xs:annotation>
+			<xs:documentation>Time should be provided as UTC and include time zone offset</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:time">
+			<xs:pattern value=""/>
+			<xs:pattern value=".+-[:].*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AddrEnglish">
+		<xs:sequence>
+			<xs:element name="Name" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name directly associated with the address. This is not necessarily a company or individual name.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AddrLn1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The first unstructured address line.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AddrLn2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The second unstructured address line.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AddrLn3" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The third unstructured address line.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StreetNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of the building or property in the street given in street name.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StreetName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name or number iof the street.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="BuildingName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name of the building.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="BuildingFloorNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The floor number in the building </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>City name.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PostalCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Post code or zip code.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Cntct" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="State" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The code or name for the state in which the rest of the address exists.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CtryCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The 2-char ISO code for the country in which the address exists.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddrLclLang">
+		<xs:annotation>
+			<xs:documentation>This the address to be used when address details are required in teh local language of the location/country witjhin which the address exiosts. The address field definitions and usage are the same as those defined for address English (AddrEnglish).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="480"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AddrLn1" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="360"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AddrLn2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="360"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AddrLn3" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="360"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StreetNo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StreetName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="BuildingName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="BuildingFloorNo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="City" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="360"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PostalCd" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Cntct" type="mstns:CntctDtls" minOccurs="0"/>
+			<xs:element name="State" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CtryCd" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoDtls">
+		<xs:annotation>
+			<xs:documentation>The details of any company that is referenced. This is a global type and this definition may be used elsewhere. For example in defining the company details for a shipper or receiver.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CoName">
+				<xs:annotation>
+					<xs:documentation>The registered name of the company.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="70"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CoNameLclLang" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The local language name of the company. Note that in this context this is likely to be used if teh local language is a multi byte  langauage such as Chinese or Japanese.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="140"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TraderID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique identifier or reference for the company.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TraderStatus" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AddrEng" type="mstns:AddrEnglish"/>
+			<xs:element name="AddrLclLang" type="mstns:AddrLclLang" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CntctDtls">
+		<xs:annotation>
+			<xs:documentation>Contact Details. This is to identify any contact details forindividuals that may need to be contacted. This can be used to associate a contact either directly with a company, or with an address.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PreferredName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>TYhe referred name of the contact - the name given by the contact as the preferred means of addressing the individual.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="560"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FirstName" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The first (or given) name of the contact.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LastName" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The last (or family) name of the contact.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Nationality" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The nationality of the contact.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LangCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This should be used to indicate the preferred communication language of the contact. It is the 2-char ISO code for the language - e.g. EN = English.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CntctDevices" type="mstns:CntctDevices" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CntctDevices">
+		<xs:annotation>
+			<xs:documentation>These are the available contact methods by which the contact may be contacted.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeviceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Devioce type. May be the full or accepted coded definition of the device type. For example this may be Tel or Telephione.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DeviceDtls" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The device details. For exampl, in the case of the device type being telephine, this would be the telephone number, for email, the email address.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Mvmt">
+		<xs:sequence>
+			<xs:element name="TDOCs">
+				<xs:annotation>
+					<xs:documentation>Transport Document information is carried and provided by the airlines. At the moment Express generally does not have this information, so most of these details, if required, will be manually entered without validation.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TDOC" type="mstns:TDOC" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DepartureDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date on which the goods began their direct and uninterrupted journey from exporters premises or other locations to the country of destination, Should conform to ISO 8601 - CCYYMMDD.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DepartureTime" type="xs:time" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Time at which the goods began their direct and uninterrupted journey from exporters premises or other locations to the country of destination, Should comform to ISO 8601 HHMMSS (with UTC offset where time is UTC), otherwise time is local taim at departure location.
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LoadingDepartureDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date / scheduled date of the goods depart the place of loading, Should connform to ISO 8601 - CCYYMMDD.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ArrivalDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date / scheduled date of arrival of means of transport at (for air) first airport, (land) arrival at first border post and (sea) arrival at first port, Should conform to ISO 8601 - CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ArrivalTime" type="xs:time" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Time / scheduled time of arrival of means of transport at (for air) first airport, (land) arrival at first border post and (sea) arrival at first port, Should conform to ISO 8601 - HHMMSS with an optional UTC offset where time is UTC, otherwise time is local time at arrival location.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MasterBirthdate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Birth date of master (of Vessel), or operator of other mode of transport e.g., pilot, or driver, Should conform to ISO 8601 - CCYYMMDD.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Warehouse" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identification of warehouse where a particular consignment has been stored, coded.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfLoading" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the seaport, airport, freight terminal, rail station or other place at which the goods (cargo) are loaded on to the means of transport being used for their carriage from the Customs territory</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfLoadingCtryCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Country Code (ISO 2-char standard) for the name of the seaport, airport, freight terminal, rail station or other place at which the goods (cargo) are loaded on to the means of transport being used for their carriage from the Customs territory.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfLoadingCdSrva" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL service Area Code (or equivalent IATA code) for the name of the seaport, airport, freight terminal, rail station or other place at which the goods (cargo) are loaded on to the means of transport being used for their carriage from the Customs territory.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfLoadingCdFacility" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL facility Code for the name of the seaport, airport, freight terminal, rail station or other place at which the goods (cargo) are loaded on to the means of transport being used for their carriage from the Customs territory.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfDischarge" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the seaport, airport, freight terminal, rail station or other place at which the goods (cargo) are unloaded from the means of transport having been used for their carriage</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfDischargeCtryCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Country Code (ISO 2-char standard) for the name of the seaport, airport, freight terminal, rail station or other place at which the goods (cargo) are unloaded from the means of transport having been used for their carriage.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfDischargeCdSrva" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Service Area code  (or equivalent IATA code) for the name of the seaport, airport, freight terminal, rail station or other place at which the goods (cargo) are unloaded from the means of transport having been used for their carriage.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfDischargeCdFacility" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL facility code for the name of the seaport, airport, freight terminal, rail station or other place at which the goods (cargo) are unloaded from the means of transport having been used for their carriage.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CarrierName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of party undertaking or arranging transport of goods between named points.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Operator" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identification of party undertaking or arranging transport of goods between named points' This will usually be the two character IATA identification of the carrier (e.g. CX - Cathay Pacific). May be different depending on transport mode, and should be taken from the first 2 - 3 characters of the movement number.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="MvmtNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>identification of the movement (for express this is usually flight, but may also be ground) on which the goods were transported.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="17"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="MvmtVanningParties" type="mstns:VanningParty" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Name and address of party authorized by the Customs who proves that goods indicated in packing list are stuffed into container without any fault.
+This can also be the name and address where the goods are containerized.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TDOC">
+		<xs:sequence>
+			<xs:element name="TDOCNo">
+				<xs:annotation>
+					<xs:documentation>Reference assigned by the carrier or his agent to the transport document</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TDOCType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is a code identifying the type of document evidencing a transport contract. This identifier will come from the EDIFACT standard code list for reference types. For transport doc, the standard code for an AIR Express transport document is AAS which is defined by EDIFACT as "Reference assigned by the carrier or his agent to the transport document."
+There can be different types. For example the EDIFACT list specifies AFI as "Immediate transportation no. for in bond movement"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ConsolidationType" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="6"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ContractAndCarriageCondition" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code to identify the conditions of contract and carriage. This is unlikely to be used unless there are specific country requirements.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TDOCPieces" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TDOCWeight" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The weight of the material being moved under the transport document specified by the transport doc number above.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransShpPort" minOccurs="0" maxOccurs="5">
+				<xs:annotation>
+					<xs:documentation>Customs office which is competent for transit formalities en route, coded. This will be used if there is a requirement to indicate which ports the shipments or transport documents have transited through.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ConveyanceRefNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique reference given by the carrier to a certain journey or departure of a means of transport (generic term). This is the movement number.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EquipmentSupplier" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>to indicate the party that is the supplier of the equipment.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ContainerStatus" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indication whether containers and other similar unit load devices are empty or carry one or more consignments.
+n1 / EDIFACT code (4:Empty, 5:Full)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:fractionDigits value="0"/>
+						<xs:totalDigits value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EquipmentSizeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Coded description of the size and type of equipment.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransportMode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identification of description of the type of the means of transport being utilized.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransportModeAtDeparture" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identification of the means of transport used at the time of presentation of the consignment to a Customs office in the context of a goods declaration, departure, if different from TransportMode above. </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EquipmentID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Marks (letters and/or numbers) which identify equipment e.g. unit load device.  An example would be ULD registration No.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="17"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ContainerIDQualifier" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code indicating whether a container is marked (letters and/or numbers) in accordance with ISO 6346 or some other system, to enable the correct validation routine to be operated </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransportModeCrossingBorderId" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identification of the active means of transport used in crossing the border of the Customs territory.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SealNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of a custom seal or another seal affixed to the containers or other transport unit </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransportModeCrossingBorderNationality" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the country in which a means of transport crossing the border of Customs territory is registered, coded.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CarriageTransportAtDeparture" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Means and method of transport used for the carriage  of the goods at departure</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CarriageTransportAtDepartureCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Means and method of transport used for the carriage  of the goods at departure - coded.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CarriageTransportAtArrivalCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Means and method of transport used for the carriage of the goods at arrival, coded</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CarriageTransportAtArrival" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Means and method of transport used for the carriage of the goods at arrival.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransportModeAtArrival" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identification of the means of transport used at the time of presentation of the consignment to a Customs office in the context of a goods declaration at arrival</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransportModeCrossingBorderIdCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identification of the active means of transport used in crossing the border of the Customs territory, coded</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="9"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ShipStayRef" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>UK Port Authority Indicator uniquely identifying a vessel to a particular trip and/or berth within the same port</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssociatedOrPrevTDOC" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Previous transport document number or other assigned reference number associated with the shipment. Applies to secondary cargo document report only</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AssociatedOrPrevTDOCCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code to qualify the type of associated transport document  in a secondary cargo report</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ContainerLegalStatus" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Legal status of the containers with	  respect to the Container Convention	  code (coded)				</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ContainerTransportInd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An indication whether or not goods are carried in container.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Shps">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Shp" type="mstns:Shp" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Entry">
+		<xs:sequence>
+			<xs:element name="VanningDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date when the goods were containerized / Date when traders intend to stuff their goods into container at their premises, Date should follow ISO 8601 format - CCYYMMDD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TraderRef" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Trader reference, used by trader for reference purposes.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PreviousCstmsDocDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date of the previous Customs document (9815) in accordance with national legislation. Date should follow ISO 8601 format - CCYYMMDD.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PreviousCstmsDocType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Type of document used for declaration previously presented on customs territory </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsOffice" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Customs office to which this declaration is addressed</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="11"/>
+						<xs:pattern value="[A-Za-z0-9]*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="VanningPlace" type="mstns:AddrEnglish" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address where the goods are containerized</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VanningParty" type="mstns:VanningParty" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address of party authorized by the Customs who proves that goods indicated in packing list are stuffed into container without any fault</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Agent" type="mstns:Agent" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address of a person authorized to act on behalf of another party. This can be used in the vent we need another party that isn't defined elsewhere.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContainerOperator" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of party owning,operating or controlling the transport unit (container). This wil usually be "DHL" or blank.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="70"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TotPackages" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total number of packages of the entire declaration/consignment</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:fractionDigits value="0"/>
+						<xs:minInclusive value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsComments" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is free text for any customs comments that come back from customs in the return message.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsDocNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reference number assigned to the document/message by the issuer. Note that this can also be provided in the header.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsDeclarationNo">
+				<xs:annotation>
+					<xs:documentation>Number, assigned or accepted by Customs, to identify a Goods declaration</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsAcctNo" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsSubmissionDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Date on which the declaration was made to customs. Note this can also be provided in the header (unh) date/time of preparation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CstmsReceiptNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Can be used to record a reference number returned by cistoms in a response message.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Mvmts">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Mvmt" type="mstns:Mvmt" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Shp">
+		<xs:sequence>
+			<xs:element name="ConsignmentSequenceNo" type="xs:integer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Serial, sequential No differentiating each separate consignment entry. 	  </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HAWB">
+				<xs:annotation>
+					<xs:documentation>House AirWayBill. Unique No assigned to goods, both for Impt and Expt.  </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="10"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LineItems" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LineItem" type="mstns:LineItem" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LineItemAction" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Specific. This is populated by DCC and sent to DCE. It indicates wether one or more line items have been deleted. It is not to be sent to customs.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="GrossWgt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Weight (mass) of all goods in declaration including packing but excluding the carrier's  equipment.			</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="20"/>
+						<xs:fractionDigits value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ActWgt" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="5"/>
+						<xs:totalDigits value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Cube" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Measurement normally arrived at by multiplying the maximum length, width	and height of pieces or packages or transport equipment.
+			  </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="20"/>
+						<xs:fractionDigits value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Dim" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DimUOM">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Lgth">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="5"/>
+									<xs:totalDigits value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Wdth">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="5"/>
+									<xs:totalDigits value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Hght">
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="5"/>
+									<xs:totalDigits value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="IncotermsPlace" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the point or port of departure,Shp or Dest, as required underthe applicable Incoterm.			</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="IncotermsPlaceCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the point or port of departure,Shp or Dest, as required under the applicable Incoterm, Coded.	</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Incoterms">
+				<xs:annotation>
+					<xs:documentation>Cd to indicate applicable Incoterm under which seller undertakes to deliver merchandise to buyer. 
+Incoterms or international commercial terms are a series of international sales terms, published by International Chamber of Commerce (ICC) and widely used in international commercial transactions. They are used to divide transaction costs and responsibilities between buyer and seller and reflect state-of-the-art transportation 
+practices. They closely correspond to the U.N. Convention on Contracts for the International Sale of Goods. The first version was
+introduced in 1936 and the present dates from 2000.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DHLServiceCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Specific: This is the service code under which DHL mobe the shipment.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="UniqueConsignmentRefNo2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the (for air) first airport, (land) arrival at first border post and (sea) arrival at first port</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CargoDesc">
+				<xs:annotation>
+					<xs:documentation>This is a Desc of the consignment or Shp. In English. </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="collapse"/>
+						<xs:minLength value="1"/>
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="BillProdCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The DHL product Cd which identifies the terms and conditions under which the Shp was	transported and how it will be rated and billed		  </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="6"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ProdContentCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies the operational conditions under which the Shp was transported.		  </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LclLangCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is the Lang Cd as specified in ISO 639-1 specification.	  </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CargoDescLclLang" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="512"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PackagingType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identification of Desc of the form in which goods are presented.			</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="3"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TotPackages" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Tot No of packages of the entire declaration/consignment
+			</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="8"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PymtRef" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ref or indication of the Pymt/guarantee Ref of duty/tax e.g. under a transit  procedure.			</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="35"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PymtMode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Method by which a duty or tax is paid to the relevant administration, Coded.		</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SecurityDtls" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Dtls regarding undertaking given in cash, bond or as a written guarantee to ensure that an obligation will be fulfilled, Coded.			</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TCChargeAmt" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Specific. Transport COllect Charge amount. Used if payment is made by receiver.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TxAndDty" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DutyTaxFee" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:double">
+									<xs:minExclusive value="2"/>
+									<xs:maxExclusive value="16"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="DeductibleQuantity" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:double">
+									<xs:maxExclusive value="14"/>
+									<xs:pattern value="[0-9]"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="DutyTaxFeeReduced" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:double">
+									<xs:minExclusive value="2"/>
+									<xs:maxExclusive value="16"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Charges" type="xs:double" minOccurs="0"/>
+						<xs:element name="CstmsVal" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:double"/>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="CstmsValCrncyCd" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="OtherDtbleAmount" type="xs:double" minOccurs="0"/>
+						<xs:element name="OtherDtbleCrncy" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="OtherNonDtbleAmount" type="xs:double" minOccurs="0"/>
+						<xs:element name="OtherNonDtbleCrncy" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="TotTariff" type="xs:double" minOccurs="0"/>
+						<xs:element name="TotDuty" type="xs:double" minOccurs="0"/>
+						<xs:element name="TotTax" type="xs:double" minOccurs="0"/>
+						<xs:element name="TotFees" type="xs:double" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GoodsDeclarationNo">
+				<xs:annotation>
+					<xs:documentation>Number, assigned or accepted by Customs, to identify a Goods declaration. To be populated based on configurable sequence number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PaperworkFlag" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates whether papaerwork is attached to the shipment being declared.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SecurityChecked" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Boolean indicating that the shipment has been inspected by DHL for security purposes prior to transport.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReasonForExpt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Flag indicating reason for export
+P= Permanent
+T=Temporary </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsFormDesc" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Description of the customs documents accompanying the shipment being declared. In the WCO These are the additional document names.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="70"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsFormDescLclLang" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Description of the customs documents accompanying the shipment being declared. Local language.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="70"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AddDocTypes" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Codes specifying the additional document types accompanying the shipment being declared.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="GoodsAcceptanceDTm" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date on which a Goods declaration is accepted by Customs in accordance with Customs legislation or intended date of goods declaration (in case of pre-filing), coded. Date should conform to ISO 8601 - CCYYMMDD. (Submission Date).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NatureOfTransaction" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An indication for Customs of the type of contract under which goods are supplied, coded</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Authentication" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Proof that a document has been signed or otherwise authenticated, indicating-when appropriate-the status of the party signing or authenticating it. Would probably be manually added during entry completion</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ErrorConditionCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code specifying a request to overrride automatic processing procedures. In the WCO mapping to EDIFACT this relates to processing indicators in the GEI tag. It will only be used if there are specific country requirements.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PrevCstmsDocNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The serial number or authentication number of a previous Customs document. This will be used in the event of a resibmission where it will contain the previous declaration number.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="UniqueConsignmentRefNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique number assigned to goods, both for import and export. This is a WCO field. In DHL terms this is the HAWB, but can be used for other reference numbers if required.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PrevDeclarationLineNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Item number pertaining to the previous Customs filing. This is reserved for future use.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ArrivalDateInDischarge" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date of arrival at port or airport with intent to unload. This is the actual arrival date of the material at the clearance gateway.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReservationNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reservation number for conveyance which is assigned by carrier on the request by shipper. Reference number assigned by a carrier or its agent to identify a specific consignment. This will only be used if there are specific country requirements.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ArrivalConfirmationInd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator that goods for which notice of presentation to customs was submitted have arrived at the competent customs office</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EntryCstmsOffice" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Customs office at which the goods enter the Customs territory of destination, coded.
+
+UNLOCODE (maximum 5-characters) + an..6, national code
+</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExitCstmsOffice" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Customs office by which the goods leave or are intended to leave the Customs territory, coded.
+
+UNLOCODE (maximum 5-characters) + an..6, national code
+</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransitCstmsOffice" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Customs office which is competent for transit formalities en route, coded</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="RoutingCountries" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The country(ies) through which the goods are routed between the country of export and destination, coded</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfDest" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the place at which the goods are destined under Customs control of transit procedure</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfDestCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the place at which the goods are destined under Customs control of transit procedure, coded</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExptRgn" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Region where goods actually begin their journey to port of export, coded.
+This is the Region description of the shipment's origin.  The value will be derived from a reference table.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ShpBuyer" type="mstns:Buyer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address of the party to which merchandise is sold.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShpImpter" type="mstns:Impter" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address of party who makes-or on whose behalf a Customs clearing agent or other authorized person makes- an import declaration. This may include a person who has possession of the goods or to whom the goods are consigned.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShpExpter" type="mstns:Expter" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address of the person who makes - or on whose behalf     '- the export declaration - is made - and who is the owner of the goods or has similar right of disposal over them at the time when the declaration is accepted
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShpPayer" type="mstns:Payer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name and address of the party identified by DHL who will be paying (or is responsible for paying) any duties and taxes, fees and other monetary costs incurred as a result of importing or exporting the shipment.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CarrierID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is the unique identifier of the carrier. For airlines this will likely be the two character IATA identifier e.g. CX for Cathay Pacific.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="14"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ShpCnsgne" type="mstns:Cnsgne" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address of party to which goods are consigned - the receiver of the goods.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShpCnsgnr" type="mstns:Cnsgnr" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address of party which, by contract with a carrier, consigns or sends goods with the carrier, or has them conveyed by him.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NotifyParty" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address of party to be notified.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="35"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="TraderID">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="35"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PartyAddr" type="mstns:AddrEnglish"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ShpSeller" type="mstns:Seller" minOccurs="0"/>
+			<xs:element name="ExchangeRate">
+				<xs:annotation>
+					<xs:documentation>The rate at which one specified currency is expressed in another specified currency.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="12"/>
+						<xs:fractionDigits value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Crncy">
+				<xs:annotation>
+					<xs:documentation>The name or symbol of the monetary unit associated with an amount involved in the transaction, coded. This will be the standard three character international currencey code. E.g. GBP for UK sterling, SGD for Singapore Dollars.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ValuationMethod" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the basis on which the Customs value is determined, coded. This will be received from customs, not sent to customs.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExptRequest" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indication by exporter whether they need certificate of export from Customs or not. If permits are required for export switch this on.				</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ValuationAdjustment" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A monetary amount by which the value was adjusted.	</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FrghtApportioningQualifier" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Method of proportional allocation of freight charges in a multi item consignment;
+A=by weight,B=by value</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OtherCharges" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An amount added or subtracted from the total invoice price not previously taken into account when determining the Customs value</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TypeOfInvoice" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reference to the type of invoice relating to the declaration e.g. commercial, pro-forma, photocopy, etc., coded.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PartiesRelationship" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indication as to whether or not there are financial or other relationships between the parties to a transaction, coded.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InvoiceAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total amount of invoice price for the goods declared in one declaration. This is the shipment Value.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="2"/>
+						<xs:totalDigits value="16"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Frght" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Costs incurred by the shipper in moving the goods, by whatever means, to the port or place of importation/exportation as specified by national legislation.Besides transport costs, this element may include sub-elements such as documentation, loading, unloading and insurance, to the extend that they relate to the freight cost.
+</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="5"/>
+						<xs:totalDigits value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Gateway" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL gateway processing the shipment. This will be the DHL service area code, but may have to be the IATA code in the event that they are different.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="6"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ArrPcs" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Specific: This is the actual piece count  that have physically arrived with the shipment.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:totalDigits value="8"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ShpOrgn">
+				<xs:annotation>
+					<xs:documentation>DHL Specific: This is the DHL Service Area code from which the shipment was sent.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ShpDest">
+				<xs:annotation>
+					<xs:documentation>DHL Specific: This is the DHL Service Area code to which the shipment is being sent.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FilingNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The filing number given by customs when the shipment is submitted. Example. This can be the ITN or XTN number given by US customs when a shipment is exported.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ShpValue">
+				<xs:annotation>
+					<xs:documentation>The sum of the line items in local currency</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="3"/>
+						<xs:totalDigits value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LclCrncy">
+				<xs:annotation>
+					<xs:documentation>The local currency into which the shipment is being imported.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Category">
+				<xs:annotation>
+					<xs:documentation>description of teh category under which the goods are declared to customs. Example LVND</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Status" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is the status of goods as returned by cistoms (e.g HELD, Released). This will usually be coded.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FTZFlag" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL specific. Indicates if the shipment is an FTZ shipment (Note: In shipment details, there is a flag for FTZ)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostClearanceFlag" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL specific. Indicates if the shipment is a Post Cleared shipment (Note: In shipment details, there is a flag for indicating it is post cleared)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DHLInvoiceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL specific. This is the invoice type used for IAS.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FrghtCrncy" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Currency in which freight costs are declared.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Insurance" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A monetary value relating to insurance.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="50"/>
+						<xs:fractionDigits value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InsuranceCrncy" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Currency in which insurance costs are declared.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OutboundID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If goods are being returned, this will contain the shipment identifier that was used for the original outbound shipment.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsFee" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total Fee for type "Customs." This shows the total of all custom related fees. This is the sum of the line item fees for the shipment.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="3"/>
+						<xs:totalDigits value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CustomAtts" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>THese are custom attributes that are used internally within DCE. In the transmission to customs they are unlikely to be used, but may be. They can also be used for free text if required.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CustomAtt" type="mstns:CustomAtt" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CustomResponseCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This field is blank in the Request file. The Response file should contain the response code. CLR for cleared, REJ for rejected, HLD for held.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsResponseDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date on which a Goods declaration is accepted by Customs in accordance with Customs legislation or intended date of goods declaration (in case of pre-filing), This should be in ISO 8601 format - CCYYMMDD.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShpCtryOrgn" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The country of origin of the shipment. Should be the ISO 2-char apha code for the country.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ShpCtryDest" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The country of destination of the shipment. Should be the ISO 2-char apha code for the country.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PUDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Specific. The date on which the shipment was collected from teh consignor to begin its journey.
+Should  be ISO 8601 format - CCYYMMDD.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PUTime" type="xs:time" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Specific. The time at which the shipment was collected from teh consignor to beginits journey. Should be ISO 8601 format - HHMMSS. May contain a UTC offset if time is in UTC, otherwise time is local to the loaction of the collection.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SDPieces" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Specific. The number of pieces electronically manifested.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:totalDigits value="8"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="NSFFlag" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Flag indicating if the consignor is a non-self filer - i.e. the consignor are responsible for obtaining a customs reference number for export or import declaration. Example is the XTN or ITN number used in the US for export declaration.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdditionalFees" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AdditionalFee" type="mstns:AdditionalFee" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Variables" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Variable" type="mstns:Variable" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SplitShpInd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Specific. Indicates iif the shipment is a split shipment.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:boolean"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FinalDispositionInd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used in the US. (Returned from Customs)
+
+An indication as to AES’s final disposition of the transmitted data component: 
+Space = Not a final disposition record. 
+A = Final disposition; component ACCEPTED by AES.  
+For a commodity shipment transaction, the action requested was successfully performed. 
+R = Final disposition; component REJECTED by AES.  
+For a commodity shipment transaction, the action requested was NOT performed</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SeverityInd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used in the US (returned from customs).
+
+An indication as to the severity of the condition.
+F = ‘Fatally’ invalid data or critical error condition identified.  Data MUST be corrected and re-transmitted immediately.
+W = Warning condition identified.  Filer MUST correct the shipment data within 4 days.
+V = Verification of condition/data reported requested by the Census Bureau.  Please correct the shipment if data reported is incorrect.
+C = Compliance Alert condition identified.  A potential reporting compliance violation may have occurred.
+I = Informational notice ONLY.
+Space = No conditions encountered.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FlexFields" type="mstns:CustomAtt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>System configurable fields.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NarrativeText" minOccurs="0" maxOccurs="10">
+				<xs:annotation>
+					<xs:documentation>Free text.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="1024"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ShpReceiverInfoSelected" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Soecific. ndicates if the ship receiver (consignee) data was selected from the customer data in the database. This will be received from DCC.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+						<xs:pattern value="Y|N"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CleansingType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>DHL Specific. Indicates if the data was cleansed manually or auttomatically. Will be received from DCC.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LineItem">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="GoodsItemNo" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Serial, sequential number differentiating each separate goods item entry of a consignment as contained in one document/declaration.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TariffQnty">
+				<xs:annotation>
+					<xs:documentation>Measurement of the goods as required by Customs to be expressed for tariff, statistical or fiscal purposes</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="MeasureUnitQualifier">
+				<xs:annotation>
+					<xs:documentation>Indication of the unit of measurement in which weight (mass), capacity, length, area, volume or other quantity is expressed</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="3"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DescOfGoods">
+				<xs:annotation>
+					<xs:documentation>Plain language description of the nature of the goods sufficient to identify them at the level required for banking, Customs, statistical or transport purposes, avoiding unnecessary detail (Generic term) for Goods declaration</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DescOfGoodsLclLang" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of goods as defined in "DescOfGoods" in the local language iof the country of declaration.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="500"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PartNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique number affixed by the manufacturer to individual pieces of products for identification purposes e.g. VIN for a vehicle. This may also be a serial number for a DVD player for example. This is generally the same as Identity no.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ShippingMarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Marks and numbers identifying individual packages. May be used for hawb number for consolidated entry.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="140"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="UNDGNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique serial number assigned within the United Nations to substances and articles contained in a list of the dangerous goods most commonly carried.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="4"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="NoOfPackages" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Number of packages per commodity code packed in such a way that they cannot be divided without first undoing the packing. This means that if there are a shipment of motherboards (for example), and I have 40 of them in a single sealed box (within which are individual boxes containing individual motherboards), then this count would be 40</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="14"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TariffCdNo">
+				<xs:annotation>
+					<xs:documentation>Code number of the goods in accordance with the tariff nomenclature system of classification in use where the Customs declaration is made.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="IdentityNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique number affixed by the manufacturer to individual pieces of products for identification purposes e.g. VIN for a vehicle. This may also be a serial number for a DVD player for example. This is generally the same as part no.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsStatusGoods" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Status of goods as Community or non-Community goods; Community goods are goods:        1) wholly obtained or produced in the EU or 2) released for free circulation after importation in the EU, or 3) obtained or produced in EU from goods under 2) above or under 1).</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TariffCdExtn" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Tariff code beyond 10 digits. This will be defiined by individual countries.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="12"/>
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LineItemTariffs">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LineItemTariff" type="mstns:LineItemTariff" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AssessmentValue" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Amount due for each chargeable item of goods or services</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="50"/>
+						<xs:fractionDigits value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TypeOfDutyRegime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A statement of the full/preferential regime according to which duty is assessed, coded. Example of this would be EU or NAFTA.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PrevCstmsProcedureCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Customs procedure, if any, which has been applied to the goods prior to the application of a different Customs procedure, coded</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="7"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsProcedureCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Treatment applied by the Customs to the goods which are subject to Customs control, coded.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="7"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AdditionalDocType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the additional document type referenced.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExptClassification" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Export License Category  (Wassenaar agreement concerning trade in weapons and dual-use technologies). This is the ECCN number - a separate set of numbers used for a subset of commodities. (The WASSENAR code).</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AdditionalDocRefNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The reference number of an additional document.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsProcedureCdDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date or duration of treatment applied by the Customs to the goods which are subject to Customs control, Date should conform to ISO 8601 - CCYYMMDD.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CtryMfctrerOrgn" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Country in which the goods have been produced or manufactured, according to criteria laid down for the purposes of application of the Customs tariff, of quantitative restrictions, or of any other measure related to trade, This is the 2-char ISO code for the country.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CtryNameMfctrerOrgn" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name of the country coded in CtryMfctrerOrgn.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="GoodsLocation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indication of the place where goods are located.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="70"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OrgnRgn" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Region in which the goods have been produced or manufactured, according to criteria laid down for the purposes of application of the Customs tariff, or quantitative restrictions, or of any other measure related to trade, coded. To be populated based on Shipment Origin. (Note: Countries mapped to Region is available)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceOfPhysicalExam" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Place where the goods are to be examined if different from Location of Goods</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Mfctrer" type="mstns:Mfctrer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address details of the manufacturer of the goods.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InvoiceLineNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Serial, sequential number uniquely identifying the invoice line.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InvNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reference number assigned by the seller to a Commercial Invoice.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InvLineVal">
+				<xs:annotation>
+					<xs:documentation>Same as line item value.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:double"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InvoiceDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Date when a Commercial Invoice is issued. Should conform to ISO 8601 - CCYYMMDD.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InvCrncyCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Currency code in which the invoice values are presented.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CstmsValue" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Value declared for Customs purposes of those goods in a consignment which are subject to the same Customs procedure, and have the same tariff/statistical heading, country and duty regime. This applies for each line.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="4"/>
+						<xs:totalDigits value="16"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ValuationInd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator for additions under WTO valuation agreement article 8: Price influence, Royalties, Assists, Proceeds, Commissions. This is an indictator for how the customs vaslus is reached and should reflexct the rules defined in DCE for valuation.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AdditionalFees" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is for any additinoal fees at line item level.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AdditionalFee" type="mstns:AdditionalFee" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Variables" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is for any variables at line item level.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Variable" type="mstns:Variable" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ProductCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This the model no (or GTIN) of the product being imported or exported. For example, if a shipment of DVD players is being declared, then the model no of the DVD player is in this element and would be the same for each item.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LclDesc" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This element may be used as a free text field to add additional imformation about the goods being declared in either local language or English depending on country requirements.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="GoodCrncy" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Currency code in which the goods are being declared.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DlcrUnits">
+				<xs:complexType>
+					<xs:sequence maxOccurs="10">
+						<xs:element name="UOM" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Unit of Measure used fo rth decalaration of the goods. Can be used in addition to TarrifQty.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="StatVal" type="xs:decimal" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Statistical value for the goods being declared. This may be different to teh unit of measure.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="NetWeight" type="xs:float" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Net Weight of the line item.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UnitPrice" type="xs:float" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unit priice of the goods being decalred at line item level.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CtryOrgnName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of teh country of manufacture.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="40"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CtryOrgnCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is the ISO Ctry Cd. It can either be the ISO 3166-1 Alpha-3 Cd (three characters), or the ISO 3166-1 Alpha-2 Cd 	(two characters).	  </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PreferentialRateFlag" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>True if the shipments country of origin is qualified for the preferential rate, false otherwise.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentNo" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Document number of the primary supporting documents.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Permits" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Permit" type="mstns:Permit" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TaxAndDuty" type="mstns:LineItemTaxAndDuty" minOccurs="0"/>
+			<xs:element name="LineItemActionCd" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+						<xs:enumeration value="A"/>
+						<xs:enumeration value="C"/>
+						<xs:enumeration value="D"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CommodityOrgnInd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used in the US.
+
+SCHEDULE B/HTS NUMBER INDICATOR Indicates whether the Schedule B number or the HTS number is being reported in L1302.
+A      U.S. International Trade  Commission, HTS number
+B      U.S. Census Bureau, Schedule B number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+						<xs:enumeration value="D"/>
+						<xs:enumeration value="F"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LineItemCustom" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Custom attributes for line item.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CustomAtt" type="mstns:CustomAtt" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TariffQuantity2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Second option for unit of measure.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TariffQuantity3" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Thrid option for unit of measure.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExptInformationCd" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is used in the US. All commodiities exported from the US that require EEI (Electronic Export Information) filing must provide an export informtion code. The current code list is specified (along with the nature of commodities requiring EEI filing) in Appendix E of the AESTIR.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ClassificationType" nillable="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Type of classifiaction - auto or manual. Received from DCC. Part of confidence rating. Do not send to customs or other regulatory authorities.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LineItemTariff">
+		<xs:sequence>
+			<xs:element name="DutyTaxFeeType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Type of duty or tax or fee applicable to commodities or of tax applicable to services, coded</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DutyTaxFeeRate" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Rate of duty or tax or fee applicable to commodities or of tax applicable to services.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CustomAtt">
+		<xs:annotation>
+			<xs:documentation>Custom Atts are user defined fields that can 
+						  contain additional information. Users of the source
+						  applications that create can define Att names
+						  in English and also a Lcl Lang equivalent.
+		</xs:documentation>
+		</xs:annotation>
+		<xs:sequence maxOccurs="10">
+			<xs:element name="Name_Eng" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name of the custom Att in English
+			</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="70"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Name_Lcl" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name of the custom Att in the Lcl Lang.			</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="140"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Val" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The content of the custom Att.
+			</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AdditionalFee">
+		<xs:sequence>
+			<xs:element name="Sequence">
+				<xs:annotation>
+					<xs:documentation>A uniique serial sequentiial number identfying the fee.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FeeType">
+				<xs:annotation>
+					<xs:documentation>The type of fee payable.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="mstns:additionalFeeType"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="NameOfFee">
+				<xs:annotation>
+					<xs:documentation>The name of the fee.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="35"/>
+						<xs:pattern value="[A-Za-z0-9]*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FeeAmount" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>The monetary amopunt of the fee.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Variable">
+		<xs:sequence>
+			<xs:element name="LineItemSequence">
+				<xs:annotation>
+					<xs:documentation>A unique serial sequential number identifying the variable.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:totalDigits value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="VariableName">
+				<xs:annotation>
+					<xs:documentation>The name of teh variable.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="VariableValue">
+				<xs:annotation>
+					<xs:documentation>The value of the variable.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="50"/>
+						<xs:fractionDigits value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Permit">
+		<xs:sequence>
+			<xs:element name="PermitType">
+				<xs:annotation>
+					<xs:documentation>Permit identifier or brief description.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LineItemSequence">
+				<xs:annotation>
+					<xs:documentation>Serial, sequential number uniqely identifying the permit.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:totalDigits value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PermitNo">
+				<xs:annotation>
+					<xs:documentation>The permit no of the permit possessed by the customer.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ResponseErrorDetailsType">
+		<xs:annotation>
+			<xs:documentation>The response error type is intended to carry error details returned by the customs or regulatory system receiving the message sent to them by DHL. In the event that an error has ocurred that results in a techinical error (an inability to process the received message/file by the receiving system then an error message is expected to be returned. These details are taken from teh EDIFACT standard error tag.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="ApplicationErrorDetail" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The detsils of the application error.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ApplicationErrorCode">
+							<xs:annotation>
+								<xs:documentation>This will contain the applicatioon error return code. It is expected that a user or system receiving this error code will have a reference table to look up the details in order to understand or execute related processing required to deal with the error.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="8"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="CodeListIDCode" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>This is the identifier code for the code list from which the application error code is taken.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="17"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="CodeListRespAgencyCode" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>This is the name of the agency that manages the code list detailing the application error codes.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ErrorPointDetails" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ErrorPointDetails" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>These details identify the particlular part of the message to which the application error code relates.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="MsgSectionCode" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>This identifies the code for the mesasge section identifying the particular section (or section group) of the message that is causing the application error.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="3"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="MsgItemID" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>This is the ID for the specific item within the specified section of the message that is causing the application error.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="35"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="MsgSubItemID" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>This is the sub item (if available or if it exists) that is causing the application error.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="6"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ErrorSegmentPointDetails" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SegmentTagID" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>This identifies the tag within the segment group that is causing the problem or error. It is the three characfter tag id (e.g. DOC, RFF, etc.).</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="3"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="SeqPosID" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>This will usually be the 4 digit position identifier within the segment group relating to the error. This can be an individual element identifier within the tag within the segment.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="10"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="SeqIDSrcCd" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>This identifes the source code location for the error.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:minLength value="0"/>
+												<xs:maxLength value="3"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FreeText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A free text description of the error.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="512"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

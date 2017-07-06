@@ -4,11 +4,13 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, DBAccess, IBC, Data.DB,
+  MemDS;
 
 type
-  TForm1 = class(TForm)
+  TmainFRm = class(TForm)
     Button1: TButton;
+    IBCConnection1: TIBCConnection;
     procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
@@ -17,7 +19,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  mainFRm: TmainFRm;
 
 implementation
 
@@ -25,7 +27,7 @@ implementation
 
 uses X_readFile;
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TmainFRm.Button1Click(Sender: TObject);
 begin
   X_readFileFRM.ShowModal;
 end;

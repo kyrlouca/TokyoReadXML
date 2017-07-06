@@ -1,7 +1,7 @@
-object Form1: TForm1
+object mainFRm: TmainFRm
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'mainFRm'
   ClientHeight = 224
   ClientWidth = 440
   Color = clBtnFace
@@ -21,5 +21,17 @@ object Form1: TForm1
     Caption = 'Button1'
     TabOrder = 0
     OnClick = Button1Click
+  end
+  object IBCConnection1: TIBCConnection
+    Database = 'C:\Data\DelphiProjects\Tariffs\TARIFF.FDB'
+    ClientLibrary = 'C:\Data\DelphiProjects\TokyoReadXML\Programs\GDS32.DLL'
+    Port = '3050'
+    Username = 'SYSDBA'
+    Server = 'localHost'
+    Connected = True
+    LoginPrompt = False
+    Left = 104
+    Top = 56
+    EncryptedPassword = '92FF9EFF8CFF8BFF9AFF8DFF94FF9AFF86FF'
   end
 end

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<CstmsInterface xsi:schemaLocation="http://www.dhl.com/CustomsInterface_v2_3.xsd DCE_CustomsInterface_WCO_V2_3_3.xsd" xmlns="http://www.dhl.com/CustomsInterface_v2_3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<CstmsInterface xsi:noNamespaceSchemaLocation="C:\Data\DelphiProjects\TokyoReadXML\XMLFiles1\DCE_CustomsInterface_WCO_V1_6.xsd" xmlns="http://www.dhl.com/CustomsInterface_v2_3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Hdr>
     <MsgCtl>
       <SchemaName>DCE Cstms Msg</SchemaName>
