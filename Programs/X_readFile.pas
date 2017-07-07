@@ -102,7 +102,10 @@ implementation
 {$R *.dfm}
 
 uses Main, G_kyriacosTypes,  G_KyrSQL;
-
+procedure TX_readFileFRM.FormCreate(Sender: TObject);
+begin
+  cn:= mainFRm.IBCConnection1;
+end;
 procedure TX_readFileFRM.Button1Click(Sender: TObject);
 var
 fname:String;
@@ -145,12 +148,10 @@ begin
     exit;
  end;
 
-
   for I := 0 to Mawbs.Count-1 do  begin
+  //each movement may hawe one or more mawbs
     aMawb := Mawbs[i];
-//    ShowMessage(aMawb.ChildNodes['TDOCNo'].Text);
     ProcessOneMawb(aMawb);
-
   end;
 
 
@@ -166,24 +167,6 @@ begin
 
 
   end;
-
-function TX_readFileFRM.CreateMawb(Const MawbId:String):integer;
-begin
-  if MawbSQL.Active then
-    MawbSQL.close;
-
-  MawbSQL.ParamByName('serialNumber').Value:=2;
-  MawbSql.Open;
-  MawbSQl.Edit;
-  MawbSQL.FieldByName('Mawb_id').Value:=MawbId;
-  MawbSQL.Post;
-  MawbSQL.Close;
-  result:=2;
-   ShowMessage('mawb:'+mawbId);
-
-
-end;
-
 function TX_readFileFRM.findHawb(Const HawbId:String):Boolean;
 var
   qr:TksQuery;
@@ -199,122 +182,6 @@ finally
 end;
 
 End;
-
-function TX_readFileFRM.CreatePartialHawb(Const hawbId:String ;Const mawbSerial:Integer; hawbNode:IXMLNode):Integer;
-var
-  qr:TksQuery;
-  oh:TksQuery;
-  SerialNumber:Integer;
-  OldHawbSerial:Integer;
-  OldHawbId:String;
-  OldMawbSerial:Integer;
-  OldMawbId:String;
-begin
-
-  try
-    oh:=TksQuery.Create(cn,'SELECT NEXT VALUE FOR HAWB_PARTIAL_GENERATOR FROM RDB$DATABASE');
-    oh.Open;
-    SerialNumber :=oh.FieldByName('GEN_ID').AsInteger;
-    oh.Close;
-  finally
-    oh.Free;
-  end;
-
-  try
-    oh:=TksQuery.Create(cn,'select serial_number, hab_id, fk_mawb_refer_number from hawb where hawbId= :HawbId');
-    oh.ParamByName('hawbId').Value:=hawbId;
-    oh.Open;
-
-    qr:=TksQuery.Create(cn,'select hab_id from hawb where serial_number:=0');
-    qr.Open;
-    qr.Insert;
-    qr.FieldByName('serial_number').value:=SerialNumber;
-
-    qr.FieldByName('FK_HAWB_SERIAL_ORIGINAL').value := oh.FieldByName('serial_number').AsInteger;
-    qr.FieldByName('FK_HAWB_ID_ORIGINAL').value     := oh.FieldByName('hab_id').AsString;
-
-    qr.FieldByName('FK_MAWB_SERIAL_ORIGINAL').value := oh.FieldByName('fk_mawb_refer_number').AsInteger;
-    qr.FieldByName('FK_MAWB_ID_ORIGINAL').value     := ''; //not used anymore
-
-    qr.FieldByName('FK_MAWB_SERIAL_ARRIVED').value  := MawbSerial;
-    qr.FieldByName('FK_MAWB_ID_ARRIVED').value      :='';
-
-    qr.FieldByName('PARTIAL_WEIGHT').value          := StrToFloatDef(hawbNode.ChildNodes['GrossWgt'].Text,0);
-    qr.FieldByName('PARTIAL_PIECES').value          := StrToIntDef(hawbNode.ChildNodes['ManifestedPieces'].Text,0);
-    qr.FieldByName('PARTIAL_DELIVERY_ORDER_ID').value := OldHawbId;
-    qr.FieldByName('DESCRIPTION').value             := hawbNode.ChildNodes['CargoDesc'].Text;
-
-    qr.Post;
-    qr.close;
-    oh.Close;
-  finally
-    qr.Free;
-    oh.free;
-  end;
-
-end;
-
-
-function TX_readFileFRM.CreateHawb(Const mawbSerial:Integer; hawbNode:IXMLNode):Integer;
-var
-  qr:TIBCQuery;
-begin
-
-    qr:=HawbSQL;
-    qr.Insert;
-
-    qr.FieldByName('Hab_id').value:=hawbNode.ChildNodes['HAWB'].Text;
-    qr.FieldByName('fk_mawb_refer_number').value:=MawbSerial;
-    qr.FieldByName('FK_mawb_id').value:=''; //NOT used anymore
-
-    qr.FieldByName('DELIVERY_ORDER_AMOUNT').value:=0;
-
-    qr.FieldByName('FK_CLEARING_STATE').value:='0';
-    qr.FieldByName('FK_INVOICE_STATUS').value:='0';
-    qr.FieldByName('INVOICE_AMOUNT').value:=0;
-    qr.FieldByName('NUMBER_OF_PARCELS').value:=StrToIntDef( hawbNode.ChildNodes['SDPieces'].Text,0);
-    qr.FieldByName('NUM_OF_PIECES_ARRIVED').value:=StrToIntDef( hawbNode.ChildNodes['ManifestedPieces'].Text,0);
-    qr.FieldByName('DESCRIPTION').value:= hawbNode.ChildNodes['CargoDesc'].Text;
-
-    qr.FieldByName('weight').value:=StrToFloatDef( hawbNode.ChildNodes['GrossWgt'].Text,0);
-    qr.FieldByName('FREIGHT_AMOUNT').value:=StrToFloatDef( hawbNode.ChildNodes['Frght'].Text,0);
-    qr.FieldByName('medium value, DO, xx,  or normal').value:='';
-    qr.Post;
-
-//        HawbTable.AddNode('DutyTaxFee','HawbSQL','tax',false);
-//        HawbTable.AddNode('ShpCtryOrgn','HawbSQL','fk_country_origin',false);
-//        HawbTable.AddNode('ArrivalDateInDischarge','HawbSQL','DATE_REGISTERED',false);
-//        HawbTable.AddNode('CstmsVal','SenderInvoiceSQL','xx',true);
-//        HawbTable.AddNode('X_PRE_DISCOUNT_AMOUNT','SenderInvoiceSQL','PRE_DISCOUNT_AMOUNT',false);
-//
-
-//        HawbTable.AddNode('Incoterms','HawbSQL','FK_DELIVERY_TERM',FALSE);
-//
-//        HawbTable.AddNode('Category','HawbSQL','x_FK_DELIVERY_TERM',TRUE);
-//        HawbTable.AddNodeWithNull('X_IsMedium','HawbSQL','IS_MEDIUM');
-//        HawbTable.AddNodeWithNull('X_IsHigh','HawbSQL','HIGH_VALUE');
-//
-//        HawbTable.AddNode('DHLServiceCd','HawbSQL','AIS_PAID',true);
-//
-//        HawbTable.AddNode('Status','HawbSQL','x_CLEARANCE_WAITING_CODE',TRUE);
-//        HawbTable.AddNode('X_WAITING_REASON','HawbSQL','CLEARANCE_WAITING_CODE',FALSE);
-//
-//        HawbTable.AddNode('CstmsValCrncyCd','SenderInvoiceSQL','ACurrency',TRUE);
-//        HawbTable.AddNode('X_CURRENCY','SenderInvoiceSQL','CURRENCY',false);
-//        HawbTable.AddNode('X_ExchangeRate','SenderInvoiceSQL','EXCHANGE_RATE',false);
-//
-//        HawbTable.AddNode('X_Clearance','HawbSQL','FK_CLEARANCE_TYPE',FALSE);
-
-
-
-end;
-
-
-
-procedure TX_readFileFRM.FormCreate(Sender: TObject);
-begin
-  cn:= mainFRm.IBCConnection1;
-end;
 
 function TX_readFileFRM.ProcessOneMawb(MawbNode:IXMLNode):Boolean;
 var
@@ -390,6 +257,127 @@ begin
     end;
 
 end;
+function TX_readFileFRM.CreateMawb(Const MawbId:String):integer;
+begin
+  if MawbSQL.Active then
+    MawbSQL.close;
+
+  MawbSQL.ParamByName('serialNumber').Value:=2;
+  MawbSql.Open;
+  MawbSQl.Edit;
+  MawbSQL.FieldByName('Mawb_id').Value:=MawbId;
+  MawbSQL.Post;
+  MawbSQL.Close;
+  result:=2;
+end;
+
+function TX_readFileFRM.CreateHawb(Const mawbSerial:Integer; hawbNode:IXMLNode):Integer;
+var
+  qr:TIBCQuery;
+begin
+
+    qr:=HawbSQL;
+    qr.Insert;
+
+    qr.FieldByName('Hab_id').value:=hawbNode.ChildNodes['HAWB'].Text;
+    qr.FieldByName('fk_mawb_refer_number').value:=MawbSerial;
+    qr.FieldByName('FK_mawb_id').value:=''; //NOT used anymore
+
+    qr.FieldByName('DELIVERY_ORDER_AMOUNT').value:=0;
+
+    qr.FieldByName('FK_CLEARING_STATE').value:='0';
+    qr.FieldByName('FK_INVOICE_STATUS').value:='0';
+    qr.FieldByName('INVOICE_AMOUNT').value:=0;
+    qr.FieldByName('NUMBER_OF_PARCELS').value:=StrToIntDef( hawbNode.ChildNodes['SDPieces'].Text,0);
+    qr.FieldByName('NUM_OF_PIECES_ARRIVED').value:=StrToIntDef( hawbNode.ChildNodes['ManifestedPieces'].Text,0);
+    qr.FieldByName('DESCRIPTION').value:= hawbNode.ChildNodes['CargoDesc'].Text;
+
+    qr.FieldByName('weight').value:=StrToFloatDef( hawbNode.ChildNodes['GrossWgt'].Text,0);
+    qr.FieldByName('FREIGHT_AMOUNT').value:=StrToFloatDef( hawbNode.ChildNodes['Frght'].Text,0);
+    qr.FieldByName('medium value, DO, xx,  or normal').value:='';
+    qr.Post;
+
+//        HawbTable.AddNode('DutyTaxFee','HawbSQL','tax',false);
+//        HawbTable.AddNode('ShpCtryOrgn','HawbSQL','fk_country_origin',false);
+//        HawbTable.AddNode('ArrivalDateInDischarge','HawbSQL','DATE_REGISTERED',false);
+//        HawbTable.AddNode('CstmsVal','SenderInvoiceSQL','xx',true);
+//        HawbTable.AddNode('X_PRE_DISCOUNT_AMOUNT','SenderInvoiceSQL','PRE_DISCOUNT_AMOUNT',false);
+//
+
+//        HawbTable.AddNode('Incoterms','HawbSQL','FK_DELIVERY_TERM',FALSE);
+//
+//        HawbTable.AddNode('Category','HawbSQL','x_FK_DELIVERY_TERM',TRUE);
+//        HawbTable.AddNodeWithNull('X_IsMedium','HawbSQL','IS_MEDIUM');
+//        HawbTable.AddNodeWithNull('X_IsHigh','HawbSQL','HIGH_VALUE');
+//
+//        HawbTable.AddNode('DHLServiceCd','HawbSQL','AIS_PAID',true);
+//
+//        HawbTable.AddNode('Status','HawbSQL','x_CLEARANCE_WAITING_CODE',TRUE);
+//        HawbTable.AddNode('X_WAITING_REASON','HawbSQL','CLEARANCE_WAITING_CODE',FALSE);
+//
+//        HawbTable.AddNode('CstmsValCrncyCd','SenderInvoiceSQL','ACurrency',TRUE);
+//        HawbTable.AddNode('X_CURRENCY','SenderInvoiceSQL','CURRENCY',false);
+//        HawbTable.AddNode('X_ExchangeRate','SenderInvoiceSQL','EXCHANGE_RATE',false);
+//
+//        HawbTable.AddNode('X_Clearance','HawbSQL','FK_CLEARANCE_TYPE',FALSE);
+
+
+
+end;
+function TX_readFileFRM.CreatePartialHawb(Const hawbId:String ;Const mawbSerial:Integer; hawbNode:IXMLNode):Integer;
+var
+  qr:TksQuery;
+  oh:TksQuery;
+  SerialNumber:Integer;
+  OldHawbSerial:Integer;
+  OldHawbId:String;
+  OldMawbSerial:Integer;
+  OldMawbId:String;
+begin
+
+  try
+    oh:=TksQuery.Create(cn,'SELECT NEXT VALUE FOR HAWB_PARTIAL_GENERATOR FROM RDB$DATABASE');
+    oh.Open;
+    SerialNumber :=oh.FieldByName('GEN_ID').AsInteger;
+    oh.Close;
+  finally
+    oh.Free;
+  end;
+
+  try
+    oh:=TksQuery.Create(cn,'select serial_number, hab_id, fk_mawb_refer_number from hawb where hawbId= :HawbId');
+    oh.ParamByName('hawbId').Value:=hawbId;
+    oh.Open;
+
+    qr:=TksQuery.Create(cn,'select hab_id from hawb where serial_number:=0');
+    qr.Open;
+    qr.Insert;
+    qr.FieldByName('serial_number').value:=SerialNumber;
+
+    qr.FieldByName('FK_HAWB_SERIAL_ORIGINAL').value := oh.FieldByName('serial_number').AsInteger;
+    qr.FieldByName('FK_HAWB_ID_ORIGINAL').value     := oh.FieldByName('hab_id').AsString;
+
+    qr.FieldByName('FK_MAWB_SERIAL_ORIGINAL').value := oh.FieldByName('fk_mawb_refer_number').AsInteger;
+    qr.FieldByName('FK_MAWB_ID_ORIGINAL').value     := ''; //not used anymore
+
+    qr.FieldByName('FK_MAWB_SERIAL_ARRIVED').value  := MawbSerial;
+    qr.FieldByName('FK_MAWB_ID_ARRIVED').value      :='';
+
+    qr.FieldByName('PARTIAL_WEIGHT').value          := StrToFloatDef(hawbNode.ChildNodes['GrossWgt'].Text,0);
+    qr.FieldByName('PARTIAL_PIECES').value          := StrToIntDef(hawbNode.ChildNodes['ManifestedPieces'].Text,0);
+    qr.FieldByName('PARTIAL_DELIVERY_ORDER_ID').value := OldHawbId;
+    qr.FieldByName('DESCRIPTION').value             := hawbNode.ChildNodes['CargoDesc'].Text;
+
+    qr.Post;
+    qr.close;
+    oh.Close;
+  finally
+    qr.Free;
+    oh.free;
+  end;
+
+end;
+
 
 
 
