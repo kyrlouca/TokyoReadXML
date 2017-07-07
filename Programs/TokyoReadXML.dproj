@@ -106,6 +106,7 @@
         </DCCReference>
         <DCCReference Include="G_kyriacosTypes.pas"/>
         <DCCReference Include="G_KyrSQL.pas"/>
+        <DCCReference Include="G_generalProcs.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

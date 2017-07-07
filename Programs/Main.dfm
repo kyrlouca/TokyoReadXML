@@ -22,6 +22,15 @@ object mainFRm: TmainFRm
     TabOrder = 0
     OnClick = Button1Click
   end
+  object Button2: TButton
+    Left = 304
+    Top = 176
+    Width = 75
+    Height = 25
+    Caption = 'Button2'
+    TabOrder = 1
+    OnClick = Button2Click
+  end
   object IBCConnection1: TIBCConnection
     Database = 'C:\Data\DelphiProjects\Tariffs\TARIFF.FDB'
     ClientLibrary = 'C:\Data\DelphiProjects\TokyoReadXML\Programs\GDS32.DLL'

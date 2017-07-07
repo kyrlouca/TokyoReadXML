@@ -18,10 +18,12 @@ procedure gpShowModal(AMyFormClass: TFormClass);
 function IndexOfSList(str :String; strArray: array of String):integer;
 Function GetSortInfo(TheTable:TIBCQuery ;Var SortInfo:TSortInfo):Boolean;
 Function SortGrid(TheTable:TIBCQUery;AFieldName:String;SortInfo:TSortInfo):Boolean;
-Function GetOneSystemParameter(TheKey,TheDescription:String;var Int1,Int2:Integer;var Num1:Double; Var Str1,str2:String):Boolean;
-Function GetTheSystemParameter(Const Key:String):TParameterREcord;
+//Function GetOneSystemParameter(TheKey,TheDescription:String;var Int1,Int2:Integer;var Num1:Double; Var Str1,str2:String):Boolean;
+//Function GetTheSystemParameter(Const Key:String):TParameterREcord;
 Function ConvertDate(Const TheString:String):Tdate;
 Function MyFormatDotFloat(Const DotAmount1 :String):double;
+Function ConvertDecimalF(StrNum:String):double;
+
 Procedure ksfillComboF1(Const connection: TIBCConnection; ComboBox: TwwDbComboBox;Const tableName,fieldstored,fieldShown:String; orderBy:String='';ShowEmpty:Boolean =false;ShowAll:boolean=false );
 
 function ksfillRadioGroup(Const connection: TIBCConnection; RadioGroup:TrzDBRadioGroup;Const tableName,fieldValue,fieldShow:String;Const AllOption:Boolean ):TStrings;
@@ -29,7 +31,7 @@ function ksfillRadioGroup(Const connection: TIBCConnection; RadioGroup:TrzDBRadi
 
 implementation
 
-uses G_KyrSQL,U_ClairDML;
+uses G_KyrSQL;
 
 function IndexOfSList(str :String; strArray: array of String):Integer;
 var
@@ -119,7 +121,28 @@ Begin
 End;
 
 
+function ConvertDecimalF(StrNum:String):double;
+var
+  fs : TFormatSettings;
+begin
+//   formatSettings.DecimalSeparator:='$';
+//   ShowMessage(System.SysUtils.FormatSettings.DecimalSeparator);
+//   exit;
 
+   fs := TFormatSettings.Create();
+   fs.DecimalSeparator:='.';
+   fs.ThousandSeparator:=',';
+   try
+     result:=StrToFloat(StrNum,fs);
+   except on E:exception do
+     result:=0;
+   end;
+
+ end;
+
+
+
+{
 Function GetOneSystemParameter(TheKey,TheDescription:String;var Int1,Int2:Integer;var Num1:Double; Var Str1,str2:String):Boolean;
 Var
         x1:Double;
@@ -177,7 +200,7 @@ Begin
   end;
 
 End;
-
+}
 
 
 Function ConvertDate(Const TheString:String):Tdate;
@@ -203,6 +226,7 @@ End;
 
 
 Function MyFormatDotFloat(Const DotAmount1 :String):double;
+//Do NOT use this one because it messes with global formatsettings. Use the CovertDecimalF instead
 // getting a string with DOT decimal and convert it to the localized format
 Var
         PCSeparator: Char;

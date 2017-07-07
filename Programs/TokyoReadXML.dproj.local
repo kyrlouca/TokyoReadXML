@@ -6,14 +6,15 @@
     <Transaction>2017/06/27 11:29:35.000.119,=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2017/06/27 11:49:13.000.723,=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2017/06/29 11:32:56.000.430,=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2017/06/29 11:33:32.000.438,C:\Data\DelphiProjects\TokyoReadXML\Programs\Main.dfm=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
-    <Transaction>2017/06/29 11:33:32.000.438,C:\Data\DelphiProjects\TokyoReadXML\Programs\Main.pas=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2017/06/29 11:33:42.000.512,C:\Data\DelphiProjects\TokyoReadXML\Programs\TokyoReadXML.dproj=C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2017/06/29 11:33:32.000.438,C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Data\DelphiProjects\TokyoReadXML\Programs\Main.pas</Transaction>
+    <Transaction>2017/06/29 11:33:32.000.438,C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Data\DelphiProjects\TokyoReadXML\Programs\Main.dfm</Transaction>
+    <Transaction>2017/06/29 11:33:42.000.512,C:\Users\KyrLouca\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Data\DelphiProjects\TokyoReadXML\Programs\TokyoReadXML.dproj</Transaction>
     <Transaction>2017/06/29 11:38:59.000.378,=C:\Data\DelphiProjects\TokyoReadXML\Programs\Unit1.pas</Transaction>
     <Transaction>2017/06/29 11:39:09.000.285,=C:\Data\DelphiProjects\TokyoReadXML\Programs\X_readFile.pas</Transaction>
-    <Transaction>2017/07/06 17:14:48.877,=C:\Data\DelphiProjects\TokyoReadXML\Programs\G_kyriacosTypes.pas</Transaction>
-    <Transaction>2017/07/06 17:14:54.032,=C:\Data\DelphiProjects\TokyoReadXML\Programs\G_generalProcs.pas</Transaction>
-    <Transaction>2017/07/06 17:14:58.530,=C:\Data\DelphiProjects\TokyoReadXML\Programs\G_KyrSQL.pas</Transaction>
-    <Transaction>2017/07/06 17:18:49.464,C:\Data\DelphiProjects\TokyoReadXML\Programs\G_generalProcs.pas=</Transaction>
+    <Transaction>2017/07/06 17:14:48.000.877,=C:\Data\DelphiProjects\TokyoReadXML\Programs\G_kyriacosTypes.pas</Transaction>
+    <Transaction>2017/07/06 17:14:54.000.032,=C:\Data\DelphiProjects\TokyoReadXML\Programs\G_generalProcs.pas</Transaction>
+    <Transaction>2017/07/06 17:14:58.000.530,=C:\Data\DelphiProjects\TokyoReadXML\Programs\G_KyrSQL.pas</Transaction>
+    <Transaction>2017/07/06 17:18:49.000.464,C:\Data\DelphiProjects\TokyoReadXML\Programs\G_generalProcs.pas=</Transaction>
+    <Transaction>2017/07/07 11:22:26.235,=C:\Data\DelphiProjects\TokyoReadXML\Programs\G_generalProcs.pas</Transaction>
   </Transactions>
 </BorlandProject>
