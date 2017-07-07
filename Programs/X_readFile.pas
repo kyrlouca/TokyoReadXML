@@ -156,6 +156,8 @@ End;
   private
     { Private declarations }
     cn:TIBCConnection;
+  Function FindCountry(Const CountryStr:String):Integer;
+
   function ReadFile(Const FileName:String) :boolean;
   function findMawb(Const MawbId:String):Integer;
   function findHawb(Const HawbId:String):Boolean;
@@ -267,10 +269,14 @@ End;
 function TX_readFileFRM.findHawb(Const HawbId:String):Boolean;
 var
   qr:TksQuery;
+  str:String;
 begin
+//if there is a recent hawb (in less than 20 days) then it is a partial hawb
+Str:= 'select ha.serial_number, ha.hab_id, ha.date_registered from hawb ha '
+  + ' where hab_id = :hawbId and ( cast(''now'' as date) - ha.date_registered )<20 ';
 
 try
-  qr:=TksQuery.Create(cn,'select hab_id from hawb where hab_id= :hawbID');
+  qr:=TksQuery.Create(cn,str);
   qr.ParamByName('hawbId').Value:=hawbId;
   qr.Open;
   result:= not qr.IsEmpty;
@@ -463,11 +469,17 @@ begin
     qr.FieldByName('fk_mawb_refer_number').value :=MawbSerial;
     qr.FieldByName('FK_mawb_id').value           :=''; //NOT used anymore
 
+    qr.FieldByName('SENT_TO_HEAD').value   :='Y';
+    qr.FieldByName('POSOSTOSIS').value      :='N';
     qr.FieldByName('DELIVERY_ORDER_AMOUNT').value :=0;
 
     qr.FieldByName('FK_CLEARING_STATE').value   :='0';
     qr.FieldByName('FK_INVOICE_STATUS').value   :='0';
-//    qr.FieldByName('INVOICE_AMOUNT').value    :=0;
+    qr.FieldByName('FK_CLEARANCE_INSTRUCTION').value   :='IM4'; //CHECK FOR MEDIUM VALUE
+
+
+    qr.FieldByName('date_registered').value     :=ConvertDateF( hawbNode.ChildNodes['PUDate'].Text);
+    qr.FieldByName('fk_country_origin').value   :=FindCountry( hawbNode.ChildNodes['ShpCtryOrgn'].Text);
     qr.FieldByName('NUMBER_OF_PARCELS').value   :=StrToIntDef( hawbNode.ChildNodes['SDPieces'].Text,0);
     qr.FieldByName('NUM_OF_PIECES_ARRIVED').value :=StrToIntDef( hawbNode.ChildNodes['ManifestedPieces'].Text,0);
     qr.FieldByName('DESCRIPTION').value         := hawbNode.ChildNodes['CargoDesc'].Text;
@@ -476,6 +488,8 @@ begin
 //    qr.FieldByName('medium value, DO, xx,  or normal').value :='';
     qr.Post;
     hawbSerial:=qr.FieldByName('serial_number').AsInteger;
+
+
 
     siSQL:=SenderInvoiceSQL;
     siSQL.Insert;
@@ -487,9 +501,10 @@ begin
     siSQL.FieldByName('IS_VALID').Value        :='Y';
     siSQL.FieldByName('EXCHANGE_RATE').Value        :=0.01;
 //    temp:=hawbNode.ChildNodes
-    siSQL.FieldByName('PRE_DISCOUNT_AMOUNT').value   :=ConvertDecimalF( hawbNode.ChildNodes['TxAndDty'].ChildNodes['CstmsVal'].Text);    siSQL.FieldByName('CURRENCY').value   := hawbNode.ChildNodes['TxAndDty'].ChildNodes['CstmsValCrncyCd'].Text;
+    siSQL.FieldByName('PRE_DISCOUNT_AMOUNT').value   :=ConvertDecimalF( hawbNode.ChildNodes['TxAndDty'].ChildNodes['CstmsVal'].Text);
+    siSQL.FieldByName('CURRENCY').value   := hawbNode.ChildNodes['TxAndDty'].ChildNodes['CstmsValCrncyCd'].Text;
     siSQL.FieldByName('invoice_amount').Value        :=0.02;
-
+//                CstmsValCrncyCd
 
 //    siSQL.FieldByName('FREIGHT_AMOUNT').value   :=ConvertDecimalF( hawbNode.ChildNodes['Frght'].Text);
     siSQL.Post;
@@ -595,12 +610,28 @@ begin
   HawbItemSQL.FieldByName('CURRENCY').value             :=hawbItemNode.ChildNodes['InvCrncyCd'].Text;
 //  HawbItemSQL.FieldByName('IMPORT_DUTY_RATE_UNIT').value :=hawbItemNode.ChildNodes['DescOfGoods'].Text;
   HawbItemSQL.FieldByName('WEIGHT_NET').value           := ConvertDecimalF( hawbItemNode.ChildNodes['NetWeight'].Text);
-//  HawbItemSQL.FieldByName('FK_COUNTRY_ORIGIN').value    :=hawbItemNode.ChildNodes['CtryMfctrerOrgn'].Text;
-  HawbItemSQL.FieldByName('FK_COUNTRY_ORIGIN').value    :=1;
+  HawbItemSQL.FieldByName('FK_COUNTRY_ORIGIN').value    :=FindCountry(hawbItemNode.ChildNodes['CtryOrgnCd'].Text);
+
   HawbItemSQL.Post;
 
 end;
 
+
+
+Function TX_readFileFRM.FindCountry(Const CountryStr:String):Integer;
+var
+  qr:TksQuery;
+Begin
+  try
+    qr:=TksQuery.Create(cn,'select number from country where XML_Country= :XmlCountry');
+    qr.ParamByName('XMLCountry').Value:=CountryStr;
+    qr.Open;
+    result:=qr.FieldByName('Number').AsInteger;
+    qr.Close;
+  finally
+    qr.free;
+  end;
+end;
 
 
 end.

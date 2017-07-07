@@ -23,6 +23,7 @@ Function SortGrid(TheTable:TIBCQUery;AFieldName:String;SortInfo:TSortInfo):Boole
 Function ConvertDate(Const TheString:String):Tdate;
 Function MyFormatDotFloat(Const DotAmount1 :String):double;
 Function ConvertDecimalF(StrNum:String):double;
+Function ConvertDateF(Const DateStr:String):Tdate;
 
 Procedure ksfillComboF1(Const connection: TIBCConnection; ComboBox: TwwDbComboBox;Const tableName,fieldstored,fieldShown:String; orderBy:String='';ShowEmpty:Boolean =false;ShowAll:boolean=false );
 
@@ -125,6 +126,8 @@ function ConvertDecimalF(StrNum:String):double;
 var
   fs : TFormatSettings;
 begin
+
+
 //   formatSettings.DecimalSeparator:='$';
 //   ShowMessage(System.SysUtils.FormatSettings.DecimalSeparator);
 //   exit;
@@ -201,6 +204,26 @@ Begin
 
 End;
 }
+
+
+Function ConvertDateF(Const DateStr:String):Tdate;
+var
+  fs : TFormatSettings;
+begin
+//   formatSettings.DecimalSeparator:='$';
+//   ShowMessage(System.SysUtils.FormatSettings.DecimalSeparator);
+//   exit;
+
+   fs := TFormatSettings.Create();
+   fs.DateSeparator:= '-';
+   fs.ShortDateFormat:= 'yyy-mm-dd';
+   try
+     result:= StrToDateTime(DateStr, fs);
+   except on E:exception do
+     result:=EncodeDate(1999,1,1);
+   end;
+
+end;
 
 
 Function ConvertDate(Const TheString:String):Tdate;
