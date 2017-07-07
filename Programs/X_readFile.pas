@@ -82,14 +82,13 @@ End;
   private
     { Private declarations }
     cn:TIBCConnection;
-    function ReadFile(Const FileName:String) :boolean;
-  function findHawb(Const HawbId:String): THawbRec;
+  function ReadFile(Const FileName:String) :boolean;
+  function findHawb(Const HawbId:String):Boolean;
 
-  function getOneMawb(aMawb:IXMLNode):boolean;
+  function ProcessOneMawb(mawbNode:IXMLNode):boolean;
+
   function CreateMawb(Const MawbId:String):integer;
-
   function CreateHawb(Const mawbSerial:Integer; hawbNode:IXMLNode):Integer;
-
   function CreatePartialHawb(Const hawbId:String ;Const mawbSerial:Integer; hawbNode:IXMLNode):Integer;
   public
     { Public declarations }
@@ -150,7 +149,7 @@ begin
   for I := 0 to Mawbs.Count-1 do  begin
     aMawb := Mawbs[i];
 //    ShowMessage(aMawb.ChildNodes['TDOCNo'].Text);
-    getOneMawb(aMawb);
+    ProcessOneMawb(aMawb);
 
   end;
 
@@ -185,7 +184,7 @@ begin
 
 end;
 
-function TX_readFileFRM.findHawb(Const HawbId:String):THawbRec;
+function TX_readFileFRM.findHawb(Const HawbId:String):Boolean;
 var
   qr:TksQuery;
 begin
@@ -226,7 +225,7 @@ begin
     oh.ParamByName('hawbId').Value:=hawbId;
     oh.Open;
 
-    qr:=TksQuery.Create(cn,'select hab_id from hawb where serial_numbr:=0');
+    qr:=TksQuery.Create(cn,'select hab_id from hawb where serial_number:=0');
     qr.Open;
     qr.Insert;
     qr.FieldByName('serial_number').value:=SerialNumber;
@@ -244,6 +243,8 @@ begin
     qr.FieldByName('PARTIAL_PIECES').value          := StrToIntDef(hawbNode.ChildNodes['ManifestedPieces'].Text,0);
     qr.FieldByName('PARTIAL_DELIVERY_ORDER_ID').value := OldHawbId;
     qr.FieldByName('DESCRIPTION').value             := hawbNode.ChildNodes['CargoDesc'].Text;
+
+    qr.Post;
     qr.close;
     oh.Close;
   finally
@@ -258,45 +259,35 @@ function TX_readFileFRM.CreateHawb(Const mawbSerial:Integer; hawbNode:IXMLNode):
 var
   qr:TIBCQuery;
 begin
-  qr:=HawbSQL;
 
+    qr:=HawbSQL;
+    qr.Insert;
 
-    qr.FieldByName('PARTIAL_WEIGHT').value          := StrToFloatDef(hawbNode.ChildNodes['GrossWgt'].Text,0);
-    qr.FieldByName('PARTIAL_PIECES').value          := StrToIntDef(hawbNode.ChildNodes['ManifestedPieces'].Text,0);
-    qr.FieldByName('PARTIAL_DELIVERY_ORDER_ID').value := OldHawbId;
-    qr.FieldByName('DESCRIPTION').value             := hawbNode.ChildNodes['CargoDesc'].Text;
-    qr.close;
-    qr.FieldByName('serial_number').value:=SerialNumber;
+    qr.FieldByName('Hab_id').value:=hawbNode.ChildNodes['HAWB'].Text;
+    qr.FieldByName('fk_mawb_refer_number').value:=MawbSerial;
+    qr.FieldByName('FK_mawb_id').value:=''; //NOT used anymore
 
-   qr.FieldByName('FK_mawb_id').value:=''; //NOT used anymore
-
-   qr.FieldByName('DELIVERY_ORDER_AMOUNT').value:=0;
+    qr.FieldByName('DELIVERY_ORDER_AMOUNT').value:=0;
 
     qr.FieldByName('FK_CLEARING_STATE').value:='0';
     qr.FieldByName('FK_INVOICE_STATUS').value:='0';
     qr.FieldByName('INVOICE_AMOUNT').value:=0;
+    qr.FieldByName('NUMBER_OF_PARCELS').value:=StrToIntDef( hawbNode.ChildNodes['SDPieces'].Text,0);
+    qr.FieldByName('NUM_OF_PIECES_ARRIVED').value:=StrToIntDef( hawbNode.ChildNodes['ManifestedPieces'].Text,0);
+    qr.FieldByName('DESCRIPTION').value:= hawbNode.ChildNodes['CargoDesc'].Text;
 
-//        HawbTable.AddNodeWithValue('X_MEDIUM_CUSTOMS_VALUE','SenderINvoiceSQL','CUSTOMS_VALUE','0',FALSE);
+    qr.FieldByName('weight').value:=StrToFloatDef( hawbNode.ChildNodes['GrossWgt'].Text,0);
+    qr.FieldByName('FREIGHT_AMOUNT').value:=StrToFloatDef( hawbNode.ChildNodes['Frght'].Text,0);
+    qr.FieldByName('medium value, DO, xx,  or normal').value:='';
+    qr.Post;
 
-
-//        HawbTable.AddNodeWithValue('X_CHARGE_VAT','HawbSQL','CHARGE_VAT','0',FALSE);
-//
-//        HawbTable.AddNodeWithValue('X_MEDIUM_HAWB_CUSTOMS_VALUE','HawbSQL','CUSTOMS_VALUE','0',FALSE);
-//        HawbTable.AddNodeWithValue('X_MEDIUM_VAT','HAWBSQL','MEDIUM_VAT_RATE',FloatToSTr(GlobalDefaultMediumVAT),FALSE);
-//
-//          HawbTable.AddNode('HAWB','HawbSQL','Hab_id',FALSE);
-//        HawbTable.AddNode('SDPieces','HawbSQL','NUMBER_OF_PARCELS',FALSE);
-//        HawbTable.AddNode('ManifestedPieces','HawbSQL','NUM_OF_PIECES_ARRIVED',FALSE);
-//        HawbTable.AddNode('CargoDesc','HawbSQL','DESCRIPTION',FALSE);
-//        HawbTable.AddNode('GrossWgt','HawbSQL','weight',false);
 //        HawbTable.AddNode('DutyTaxFee','HawbSQL','tax',false);
 //        HawbTable.AddNode('ShpCtryOrgn','HawbSQL','fk_country_origin',false);
 //        HawbTable.AddNode('ArrivalDateInDischarge','HawbSQL','DATE_REGISTERED',false);
 //        HawbTable.AddNode('CstmsVal','SenderInvoiceSQL','xx',true);
 //        HawbTable.AddNode('X_PRE_DISCOUNT_AMOUNT','SenderInvoiceSQL','PRE_DISCOUNT_AMOUNT',false);
 //
-//        HawbTable.AddNode('Frght','SenderInvoiceSQL','FREIGHT_AMOUNT',FALSE);
-//
+
 //        HawbTable.AddNode('Incoterms','HawbSQL','FK_DELIVERY_TERM',FALSE);
 //
 //        HawbTable.AddNode('Category','HawbSQL','x_FK_DELIVERY_TERM',TRUE);
@@ -304,7 +295,6 @@ begin
 //        HawbTable.AddNodeWithNull('X_IsHigh','HawbSQL','HIGH_VALUE');
 //
 //        HawbTable.AddNode('DHLServiceCd','HawbSQL','AIS_PAID',true);
-//        HawbTable.AddNode('X_IsPaid','HawbSQL','IS_PAID',FALSE);
 //
 //        HawbTable.AddNode('Status','HawbSQL','x_CLEARANCE_WAITING_CODE',TRUE);
 //        HawbTable.AddNode('X_WAITING_REASON','HawbSQL','CLEARANCE_WAITING_CODE',FALSE);
@@ -317,44 +307,40 @@ begin
 
 
 
-
-
 end;
 
 
 
 procedure TX_readFileFRM.FormCreate(Sender: TObject);
 begin
-cn:= mainFRm.IBCConnection1;
+  cn:= mainFRm.IBCConnection1;
 end;
 
-function TX_readFileFRM.getOneMawb(aMawb:IXMLNode):boolean;
+function TX_readFileFRM.ProcessOneMawb(MawbNode:IXMLNode):Boolean;
 var
   MawbId:String;
-  Hawbs :IXMLNodeList;
-  aHawb:ixmlnODE;
+  hawbNodes :IXMLNodeList;
+  hawbNode:ixmlnODE;
   j:Integer;
   MawbSerial:Integer;
+  hawb:string;
 begin
-  MawbId:=aMawb.ChildNodes['TDOCNo'].Text;
+  MawbId:=MawbNode.ChildNodes['TDOCNo'].Text;
   MawbSerial:=CreateMawb(MawbId);
 
-    hawbs:=aMawb.ChildNodes['Shps'].ChildNodes;
+  hawbNOdes:=MawbNOde.ChildNodes['Shps'].ChildNodes;
 
-    for j:= 0 to hawbs.Count -1 do begin
-      Ahawb:=hawbs[j];
-      showMessage('------hawb---'+Ahawb.ChildNodes['HAWB'].Text);
+    for j:= 0 to hawbNodes.Count -1 do begin
+      hawbNode:=hawbNodes[j];
+      hawb:=hawbNode.ChildNodes['HAWB'].Text;
+      showMessage('------hawb---'+ hawb);
+      if findHawb(hawb)then begin
+        CreatePartialHawb(hawb,Mawbserial,hawbNode);
+      end else begin
+        CreateHawb(MawbSerial,hawbNode);
 
-      with HawbSQL do begin
-        hawbSQL.Close;
-        HawbSQL.Open;
-        HawbSQL.Insert;
-        HawbSQl.FieldByName('fk_mawb_refer_NUMBER').Value:= MawbSerial;
-        HawbSQl.FieldByName('hab_id').Value:=aHawb.ChildNodes['HAWB'].Text;
-        HawbSQl.FieldByName('Weight').Value:= aHawb.ChildNodes['GrossWgt'].Text;
-
-        HawbSQL.Post;
       end;
+
 
 //        HawbTable.AddNodeWithValue('X_FK_CLEARING_STATE','HawbSQL','FK_CLEARING_STATE','0',FALSE);
 //        HawbTable.AddNodeWithValue('X_FK_INVOICE_STATUS','HawbSQL','FK_INVOICE_STATUS','0',FALSE);
